@@ -21,17 +21,16 @@ var svg = d3.select("#graph").append("svg")
 var node = svg.selectAll(".node"),
     link = svg.selectAll(".link");
 
-
 function updateGraph() {
   var nodesContainer = document.getElementById("nodesContainer");
   var linksContainer = document.getElementById("linksContainer");
 
-  nodes.splice(0, nodes.length); // remove b
-  links.splice(0, links.length); // remove b
+  nodes.splice(0, nodes.length);
+  links.splice(0, links.length); 
   var nodesDivs = nodesContainer.getElementsByTagName("DIV");
   var linksDivs = linksContainer.getElementsByTagName("DIV");
   for (var i = 0; i < nodesDivs.length; i++) {
-    var newNode = {id: i};
+    var newNode = {id: i, name: i};
     nodes.push(newNode);
   }
   for (var i = 0; i < linksDivs.length; i++) {
@@ -42,34 +41,6 @@ function updateGraph() {
   }
   start();
 }
-
-/*
-// 1. Add three nodes and three links.
-setTimeout(function() {
-  var a = {id: "a"}, b = {id: "b"}, c = {id: "c"};
-  nodes.push(a, b, c);
-  links.push({source: a, target: b}, {source: a, target: c}, {source: b, target: c});
-  start();
-}, 0);
-
-// 2. Remove node B and associated links.
-
-
-setTimeout(function() {
-  nodes.splice(1, 1); // remove b
-  links.shift(); // remove a-b
-  links.pop(); // remove b-c
-  start();
-}, 3000);
-
-// Add node B back.
-setTimeout(function() {
-  var a = nodes[0], b = {id: "b"}, c = nodes[1];
-  nodes.push(b);
-  links.push({source: a, target: b}, {source: b, target: c});
-  start();
-}, 6000);
-*/
 
 function start() {
   link = link.data(force.links(), function(d) { return d.source.id + "-" + d.target.id; });
@@ -91,4 +62,5 @@ function tick() {
       .attr("y1", function(d) { return d.source.y; })
       .attr("x2", function(d) { return d.target.x; })
       .attr("y2", function(d) { return d.target.y; });
+
 }
