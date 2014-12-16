@@ -47,9 +47,13 @@ function start() {
   link.enter().insert("line", ".node").attr("class", "link");
   link.exit().remove();
 
-  node = node.data(force.nodes(), function(d) { return d.id;});
-  node.enter().append("circle").attr("class", function(d) { return "node " + d.id; }).attr("r", 8);
-  node.exit().remove();
+  node = node.data(force.nodes());
+  node.enter().append("g").attr("class", "node");
+  node.append("circle").attr("r", 8);
+  node.append("text")
+      .attr("x", 12)
+      .attr("dy", ".35em")
+      .text(function(d) { return d.name; });
 
   force.start();
 }
