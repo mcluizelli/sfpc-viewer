@@ -25,8 +25,8 @@ function updateGraph() {
   var nodesContainer = document.getElementById("nodesContainer");
   var linksContainer = document.getElementById("linksContainer");
 
-  nodes.splice(0, nodes.length);
-  links.splice(0, links.length); 
+  nodes.splice(0); // remove all nodes from the list
+  links.splice(0); // remove all links from the list
   var nodesDivs = nodesContainer.getElementsByTagName("DIV");
   var linksDivs = linksContainer.getElementsByTagName("DIV");
   for (var i = 0; i < nodesDivs.length; i++) {
@@ -54,6 +54,7 @@ function start() {
       .attr("x", 12)
       .attr("dy", ".35em")
       .text(function(d) { return d.name; });
+  node.exit().remove();
 
   force.start();
 }
