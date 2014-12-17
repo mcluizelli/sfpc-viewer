@@ -39,6 +39,7 @@ function updateGraph() {
     var newLink = {source: source, target: target};
     links.push(newLink);
   }
+
   start();
 }
 
