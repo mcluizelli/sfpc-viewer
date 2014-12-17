@@ -59,8 +59,7 @@ function start() {
 }
 
 function tick() {
-  node.attr("cx", function(d) { return d.x; })
-      .attr("cy", function(d) { return d.y; })
+  node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
 
   link.attr("x1", function(d) { return d.source.x; })
       .attr("y1", function(d) { return d.source.y; })
