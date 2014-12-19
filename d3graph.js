@@ -21,17 +21,17 @@ var svg = d3.select("#graph").append("svg")
 var node = svg.selectAll(".node"),
     link = svg.selectAll(".link");
 
-
 function updateGraph() {
   var nodesContainer = document.getElementById("nodesContainer");
   var linksContainer = document.getElementById("linksContainer");
 
-  nodes.splice(0, nodes.length); // remove old nodes and links
-  links.splice(0, links.length); 
+  nodes.splice(0); // remove all nodes from the list
+  links.splice(0); // remove all links from the list
+  
   var nodesDivs = nodesContainer.getElementsByTagName("DIV");
   var linksDivs = linksContainer.getElementsByTagName("DIV");
   for (var i = 0; i < nodesDivs.length; i++) {
-    var newNode = {id: i};
+    var newNode = {id: i, name: i};
     nodes.push(newNode);
   }
   for (var i = 0; i < linksDivs.length; i++) {
@@ -40,55 +40,33 @@ function updateGraph() {
     var newLink = {source: source, target: target};
     links.push(newLink);
   }
+
   start();
 }
-
-/*
-// 1. Add three nodes and three links.
-setTimeout(function() {
-  var a = {id: "a"}, b = {id: "b"}, c = {id: "c"};
-  nodes.push(a, b, c);
-  links.push({source: a, target: b}, {source: a, target: c}, {source: b, target: c});
-  start();
-}, 0);
-
-// 2. Remove node B and associated links.
-
-
-setTimeout(function() {
-  nodes.splice(1, 1); // remove b
-  links.shift(); // remove a-b
-  links.pop(); // remove b-c
-  start();
-}, 3000);
-
-// Add node B back.
-setTimeout(function() {
-  var a = nodes[0], b = {id: "b"}, c = nodes[1];
-  nodes.push(b);
-  links.push({source: a, target: b}, {source: b, target: c});
-  start();
-}, 6000);
-*/
 
 function start() {
   link = link.data(force.links(), function(d) { return d.source.id + "-" + d.target.id; });
   link.enter().insert("line", ".node").attr("class", "link");
   link.exit().remove();
 
-  node = node.data(force.nodes(), function(d) { return d.id;});
-  node.enter().append("circle").attr("class", function(d) { return "node " + d.id; }).attr("r", 8);
+  node = node.data(force.nodes());
+  node.enter().append("g").attr("class", "node");
+  node.append("circle").attr("r", 8);
+  node.append("text")
+      .attr("x", 12)
+      .attr("dy", ".35em")
+      .text(function(d) { return d.name; });
   node.exit().remove();
 
   force.start();
 }
 
 function tick() {
-  node.attr("cx", function(d) { return d.x; })
-      .attr("cy", function(d) { return d.y; })
+  node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
 
   link.attr("x1", function(d) { return d.source.x; })
       .attr("y1", function(d) { return d.source.y; })
       .attr("x2", function(d) { return d.target.x; })
       .attr("y2", function(d) { return d.target.y; });
+
 }
