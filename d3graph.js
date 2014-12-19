@@ -26,8 +26,8 @@ function updateGraph() {
   var nodesContainer = document.getElementById("nodesContainer");
   var linksContainer = document.getElementById("linksContainer");
 
-  nodes.splice(0, nodes.length); // remove b
-  links.splice(0, links.length); // remove b
+  nodes.splice(0, nodes.length); // remove old nodes and links
+  links.splice(0, links.length); 
   var nodesDivs = nodesContainer.getElementsByTagName("DIV");
   var linksDivs = linksContainer.getElementsByTagName("DIV");
   for (var i = 0; i < nodesDivs.length; i++) {
