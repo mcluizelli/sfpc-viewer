@@ -22,12 +22,17 @@ var node = svg.selectAll(".node"),
     link = svg.selectAll(".link");
 
 function updateGraph() {
+
+  // remove all nodes before inserting the new ones
+  node = node.data([]);
+  node.exit().remove();
+
   var nodesContainer = document.getElementById("nodesContainer");
   var linksContainer = document.getElementById("linksContainer");
 
   nodes.splice(0); // remove all nodes from the list
   links.splice(0); // remove all links from the list
-  
+
   var nodesDivs = nodesContainer.getElementsByTagName("DIV");
   var linksDivs = linksContainer.getElementsByTagName("DIV");
   for (var i = 0; i < nodesDivs.length; i++) {
