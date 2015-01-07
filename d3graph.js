@@ -23,10 +23,6 @@ var node = svg.selectAll(".node"),
 
 function updateGraph() {
 
-  // remove all nodes before inserting the new ones
-  node = node.data([]);
-  node.exit().remove();
-
   var nodesContainer = document.getElementById("nodesContainer");
   var linksContainer = document.getElementById("linksContainer");
 
@@ -50,6 +46,10 @@ function updateGraph() {
 }
 
 function start() {
+  // remove all nodes before inserting the new ones
+  node = node.data([]);
+  node.exit().remove();
+  
   link = link.data(force.links(), function(d) { return d.source.id + "-" + d.target.id; });
   link.enter().insert("line", ".node").attr("class", "link");
   link.exit().remove();
