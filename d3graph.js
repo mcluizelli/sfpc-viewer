@@ -1,5 +1,5 @@
-var width = 600,
-    height = 600;
+var width = 800,
+    height = 800;
 
 var color = d3.scale.category10();
 
@@ -60,7 +60,9 @@ function start() {
   node.append("text")
       .attr("x", 12)
       .attr("dy", ".35em")
-      .text(function(d) { return d.name; });
+      .text(function(d) { return d.id; });
+  node.append("rect").attr("width", 5)
+      .attr("height", 5);
   node.exit().remove();
 
   force.start();

@@ -36,18 +36,19 @@ window.onload = function() {
 				}
 			}
 			
-			var links = [];
-			for (var i = 0; i < inputDat[0].length; i++) {
-				var link = {source: inputDat[0][i][0], target: inputDat[0][i][1], capacity: inputDat[0][i][2], delay: inputDat[0][i][3]};
-				links.push(link);
-			}
-			
-			var nodes = [];
+			nodes.splice(0);
 			for (var i = 0; i < inputDat[1].length; i++) {
-				var node = {id: inputDat[1][i][0], capacity: inputDat[1][i][1], memory: inputDat[1][i][2]};
+				var node = {id: inputDat[1][i][0], capacity: inputDat[1][i][1], memory: inputDat[1][i][2], virtualNodes: []};
+				//var node = {id: inputDat[1][i][0], capacity: inputDat[1][i][1], memory: inputDat[1][i][2]};
 				nodes.push(node);
 			} 
-			
+
+			links.splice(0);
+			for (var i = 0; i < inputDat[0].length; i++) {
+				var link = {source: nodes[inputDat[0][i][0]], target: nodes[inputDat[0][i][1]], capacity: inputDat[0][i][2], delay: inputDat[0][i][3], net: -1}; // -1 indicates infraestructure links
+				links.push(link);
+			}
+						
 		}
 
 		reader.readAsText(file);	
@@ -69,6 +70,7 @@ window.onload = function() {
 			var AL_RE = /AL[(]\d+([,]\d+)*[)]/g;
 			var y_RE = /y[(]\d+([,]\d+)*[)]/g;
 
+			// obtaining each occurrence of each variable via regular expression matching
 			var variables = [];
 			variables.push(fileText.match(wAux_RE));
 			variables.push(fileText.match(delay_RE));
@@ -82,12 +84,24 @@ window.onload = function() {
 					variables[i][j] = variables[i][j].match(/(\d+[.]\d+)|\d+/g);
 				}
 			}
-			
+
 			var wAux = variables[0];
 			var delay = variables[1];
 			var AN = variables[2];
 			var AL = variables[3];
 			var y = variables[4];
+
+			// inserting virtual links
+			for (var i = 0; i < AL.length; i++) {
+				var link = {source: nodes[AL[i][0]], target: nodes[AL[i][1]], capacity: -1, delay: -1, net: AL[i][2]};
+				links.push(link);
+			}
+
+			// inserting virtual routers
+			for (var i = 0; i < AN.length; i++) {
+				var virtualNode = {id: AN[i][2], net: AN[i][1]};
+				nodes[AN[i][0]].virtualNodes.push(virtualNode);
+			}
 
 		}
 
