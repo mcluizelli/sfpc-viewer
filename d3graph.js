@@ -1,7 +1,7 @@
 var width = 800,
     height = 800;
 
-var color = d3.scale.category10();
+var color = d3.scale.category20();
 
 var nodes = [],
     links = [];
@@ -62,7 +62,10 @@ function start() {
       .attr("dy", ".35em")
       .text(function(d) { return d.id; });
   node.append("rect").attr("width", 5)
-      .attr("height", 5);
+      .attr("height", 5)
+      .style("fill", function(d, i){
+        return color(i * 100);
+      });
   node.exit().remove();
 
   force.start();
