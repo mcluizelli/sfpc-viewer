@@ -8,6 +8,9 @@ var AN;
 var AL;
 var y;
 
+var nodes = [],
+    links = [];
+
 window.onload = function() {
 	var fileInputDat = document.getElementById('fileInputDat');
 	var fileInputOut = document.getElementById('fileInputOut');

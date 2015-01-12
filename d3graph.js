@@ -3,9 +3,6 @@ var width = 800,
 
 var color = d3.scale.category20();
 
-var nodes = [],
-    links = [];
-
 var force = d3.layout.force()
     .nodes(nodes)
     .links(links)
@@ -20,6 +17,7 @@ var svg = d3.select("#graph").append("svg")
 
 var node = svg.selectAll(".node"),
     link = svg.selectAll(".link");
+var vnode = node.selectAll("rect");
 
 function updateGraph() {
 
@@ -61,11 +59,12 @@ function start() {
       .attr("x", 12)
       .attr("dy", ".35em")
       .text(function(d) { return d.id; });
-  node.append("rect").attr("width", 5)
+  vnode = node.selectAll("rect")
+      .data(function(d) { return d.virtualNodes })
+      .enter().append("rect")
+      .attr("width", 5)
       .attr("height", 5)
-      .style("fill", function(d, i){
-        return color(i * 100);
-      });
+      .style("fill", function(d){ return color(d.net * 100); });
   node.exit().remove();
 
   force.start();
