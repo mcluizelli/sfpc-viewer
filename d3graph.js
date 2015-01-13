@@ -3,6 +3,9 @@ var width = 800,
 
 var color = d3.scale.category20();
 
+var radius = d3.scale.sqrt()
+    .range([0, 6]);
+
 var force = d3.layout.force()
     .nodes(nodes)
     .links(links)
@@ -48,8 +51,16 @@ function start() {
   node = node.data([]);
   node.exit().remove();
   
-  link = link.data(force.links(), function(d) { return d.source.id + "-" + d.target.id; });
-  link.enter().insert("line", ".node").attr("class", "link");
+  link = link.data(force.links());
+  link.enter().insert("path", ".node")
+      .attr("class", "link")
+      .attr("stroke", function(d){ 
+        if(d.net == -1) {
+          return "#666"
+        } else {
+          return color((d.net+1) * 100); 
+        }
+      });
   link.exit().remove();
 
   node = node.data(force.nodes());
@@ -64,7 +75,7 @@ function start() {
       .enter().append("rect")
       .attr("width", 5)
       .attr("height", 5)
-      .style("fill", function(d){ return color(d.net * 100); });
+      .style("fill", function(d){ return color((d.net+1) * 100); });
   node.exit().remove();
 
   force.start();
@@ -73,9 +84,23 @@ function start() {
 function tick() {
   node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
 
-  link.attr("x1", function(d) { return d.source.x; })
-      .attr("y1", function(d) { return d.source.y; })
-      .attr("x2", function(d) { return d.target.x; })
-      .attr("y2", function(d) { return d.target.y; });
+  link.attr("d", function (d) {
+    var x1 = d.source.x,
+        y1 = d.source.y,
+        x2 = d.target.x,
+        y2 = d.target.y,
+        dx = x2 - x1,
+        dy = y2 - y1;
+        // Set dr to 0 for straight edges.
+        // Set dr to Math.sqrt(dx * dx + dy * dy) for a simple curve.
+        // Assuming a simple curve, decrease dr to space curves.
+        // There's probably a better decay function that spaces things nice and evenly. 
+        if(d.net > -1) {
+          dr = Math.sqrt(dx * dx + dy * dy) - Math.sqrt(300 * (d.net));
+        } else {
+          dr = 0;
+        }
+    return "M" + x1 + "," + y1 + "A" + dr + "," + dr + " 0 0,1 " + x2 + "," + y2;
+  });
 
 }

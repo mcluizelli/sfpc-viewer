@@ -47,7 +47,7 @@ window.onload = function() {
 			} 
 
 			links.splice(0);
-			for (var i = 0; i < inputDat[0].length; i++) {
+			for (var i = 0; i < inputDat[0].length; i=i+2) {
 				var link = {source: nodes[inputDat[0][i][0]], target: nodes[inputDat[0][i][1]], capacity: inputDat[0][i][2], delay: inputDat[0][i][3], net: -1}; // -1 indicates infraestructure links
 				links.push(link);
 			}
@@ -95,7 +95,7 @@ window.onload = function() {
 			var y = variables[4];
 
 			// inserting virtual links
-			for (var i = 0; i < AL.length; i++) {
+			for (var i = 0; i < AL.length; i=i+2) {
 				var link = {source: nodes[AL[i][0]], target: nodes[AL[i][1]], capacity: -1, delay: -1, net: AL[i][2]};
 				links.push(link);
 			}
