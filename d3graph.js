@@ -17,10 +17,13 @@ var force = d3.layout.force()
 var svg = d3.select("#graph").append("svg")
     .attr("width", width)
     .attr("height", height);
+var ghulls = svg.append("g"),
+    glinks = svg.append("g"),
+    gnodes = svg.append("g");
 
-var node = svg.selectAll(".node"),
-    link = svg.selectAll(".link");
-var vnode = node.selectAll("rect");
+var node = gnodes.selectAll("g.node"),
+    link = glinks.selectAll("path.link"),
+    hull = ghulls.append("path");
 
 function updateGraph() {
 
@@ -65,25 +68,31 @@ function start() {
 
   node = node.data(force.nodes());
   node.enter().append("g").attr("class", "node");
-  node.append("circle").attr("r", 8);
+  node.append("circle")
+      .attr("r", 8);
   node.append("text")
       .attr("x", 12)
       .attr("dy", ".35em")
       .text(function(d) { return d.id; });
-  vnode = node.selectAll("rect")
-      .data(function(d) { return d.virtualNodes })
-      .enter().append("rect")
-      .attr("width", 5)
-      .attr("height", 5)
-      .style("fill", function(d){ return color((d.net+1) * 100); });
   node.exit().remove();
+
+  hull = hull.style("fill", "#9467bd")
+      .style("stroke", "#9467bd")
+      .style("stroke-width", 40)
+      .style("stroke-linejoin", "round")
+      .style("opacity", .2);
 
   force.start();
 }
 
 function tick() {
   node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
-
+/*
+  hull.attr("d", "M" + 
+      d3.geom.hull([[nodes[0].x, nodes[0].y], [nodes[0].x+0.1, nodes[0].y], [nodes[0].x, nodes[0].y+0.1]])
+        .join("L")
+    + "Z");
+*/
   link.attr("d", function (d) {
     var x1 = d.source.x,
         y1 = d.source.y,

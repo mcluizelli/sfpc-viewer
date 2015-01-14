@@ -9,7 +9,9 @@ var AL;
 var y;
 
 var nodes = [],
-    links = [];
+    links = [],
+    hulls = [],
+    numNets = 1;
 
 window.onload = function() {
 	var fileInputDat = document.getElementById('fileInputDat');
@@ -41,9 +43,11 @@ window.onload = function() {
 			
 			nodes.splice(0);
 			for (var i = 0; i < inputDat[1].length; i++) {
-				var node = {id: inputDat[1][i][0], capacity: inputDat[1][i][1], memory: inputDat[1][i][2], virtualNodes: []};
-				//var node = {id: inputDat[1][i][0], capacity: inputDat[1][i][1], memory: inputDat[1][i][2]};
+				var node = {id: inputDat[1][i][0], capacity: inputDat[1][i][1], memory: inputDat[1][i][2], net: -1, host: inputDat[1][i][0]};
+				// var node = {id: inputDat[1][i][0], capacity: inputDat[1][i][1], memory: inputDat[1][i][2]};
 				nodes.push(node);
+				// create hull
+				//hulls[node.id].push(node);
 			} 
 
 			links.splice(0);
@@ -102,12 +106,18 @@ window.onload = function() {
 
 			// inserting virtual routers
 			for (var i = 0; i < AN.length; i++) {
-				var virtualNode = {id: AN[i][2], net: AN[i][1]};
-				nodes[AN[i][0]].virtualNodes.push(virtualNode);
+				var node = {id: AN[i][2], capacity: -1, memory: -1, net: AN[i][1], host: AN[i][0]};
+				nodes.push(node);
+				// insert node at respective hull
+				//hulls[node.host].push(node);
 			}
 
+			// create clusters' data
+			for (var i = 0; i < nodes.legth; i++) {
+				hulls.push(nodes.map(function(node) {if(parseInt(node.host)==i){return node;}}));
+			}
 		}
 
-		reader.readAsText(file);	
+		reader.readAsText(file);
 	});
 }
