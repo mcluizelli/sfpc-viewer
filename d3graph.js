@@ -71,10 +71,10 @@ function start() {
   link.enter().insert("path", ".node")
       .attr("class", "link")
       .attr("stroke", function(d){ 
-        if(d.net == -1) {
-          return "#666"
-        } else {
+        if(d.net > -1) {
           return color((d.net+1) * 100); 
+        } else {
+          return "#666"
         }
       });
   link.exit().remove();
@@ -82,7 +82,12 @@ function start() {
   node = node.data(force.nodes());
   node.enter().append("g").attr("class", "node");
   node.append("circle")
-      .attr("r", 8);
+      .attr("r", 8)
+      .style("fill", function(d) {
+        if (d.note > -1) {
+          return color((d.net+1) * 100);
+        }
+      });
   node.append("text")
       .attr("x", 12)
       .attr("dy", ".35em")
