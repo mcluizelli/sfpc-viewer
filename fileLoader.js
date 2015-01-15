@@ -10,7 +10,7 @@ var y;
 
 var nodes = [],
     links = [],
-    hulls = [],
+    hulls,
     numNets = 1;
 
 window.onload = function() {
@@ -41,11 +41,14 @@ window.onload = function() {
 				}
 			}
 			
+			hulls = new Array(inputDat[1].length); // initialize hulls for each infraestructure node
+
 			nodes.splice(0);
 			for (var i = 0; i < inputDat[1].length; i++) {
 				var node = {id: inputDat[1][i][0], capacity: inputDat[1][i][1], memory: inputDat[1][i][2], net: -1, host: inputDat[1][i][0]};
 				// var node = {id: inputDat[1][i][0], capacity: inputDat[1][i][1], memory: inputDat[1][i][2]};
 				nodes.push(node);
+				hulls[node.id] = [node];
 				// create hull
 				//hulls[node.id].push(node);
 			} 
@@ -108,8 +111,7 @@ window.onload = function() {
 			for (var i = 0; i < AN.length; i++) {
 				var node = {id: AN[i][2], capacity: -1, memory: -1, net: AN[i][1], host: AN[i][0]};
 				nodes.push(node);
-				// insert node at respective hull
-				//hulls[node.host].push(node);
+				hulls[node.host].push(node); // insert node at respective hull
 			}
 
 			// create clusters' data

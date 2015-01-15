@@ -23,7 +23,20 @@ var ghulls = svg.append("g"),
 
 var node = gnodes.selectAll("g.node"),
     link = glinks.selectAll("path.link"),
-    hull = ghulls.append("path");
+    hull = ghulls.selectAll("path.hull");
+
+var drawHull = function(d) {
+
+  var hullMembers = d.map(function(node) { return [node.x, node.y]; });
+
+  // create "extra nodes" to make a hull for two nodes
+  if (hullMembers.length == 2) {
+    hullMembers.push([d[0].x+0.1, d[0].y]);
+    hullMembers.push([d[1].x+0.1, d[1].y]);
+  }
+  return "M" + d3.geom.hull(hullMembers).join("L") + "Z";
+
+}
 
 function updateGraph() {
 
@@ -76,23 +89,33 @@ function start() {
       .text(function(d) { return d.id; });
   node.exit().remove();
 
-  hull = hull.style("fill", "#9467bd")
+  hull = hull.data(hulls);
+  hull.enter().append("path")
+      .attr("class", "hull")
+      .style("fill", "#9467bd")
       .style("stroke", "#9467bd")
       .style("stroke-width", 40)
       .style("stroke-linejoin", "round")
       .style("opacity", .2);
+  hull.exit().remove();
 
   force.start();
 }
 
-function tick() {
+function tick(e) {
+
+  var k = 1 * e.alpha; // constant for virtual nodes attraction
+  // this will make virtual nodes move close to their infraestructure node
+  nodes.forEach(function(o, i) {
+    if (o.net > -1) {
+      o.x += (nodes[o.host].x - o.x)*k;
+      o.y += (nodes[o.host].y - o.y)*k;
+    }
+  });
+
   node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
-/*
-  hull.attr("d", "M" + 
-      d3.geom.hull([[nodes[0].x, nodes[0].y], [nodes[0].x+0.1, nodes[0].y], [nodes[0].x, nodes[0].y+0.1]])
-        .join("L")
-    + "Z");
-*/
+
+  hull.attr("d", drawHull);
   link.attr("d", function (d) {
     var x1 = d.source.x,
         y1 = d.source.y,
