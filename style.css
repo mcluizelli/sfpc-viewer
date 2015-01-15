@@ -4,13 +4,13 @@
   stroke-width: 1.5px;
 }
 
-.node circle {
+.node path {
 	fill: #ccc;
   stroke: #fff;
   stroke-width: 1.5px;
 }
 
-.hull path {
+path.hull {
 	
 }
 

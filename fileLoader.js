@@ -45,7 +45,7 @@ window.onload = function() {
 
 			nodes.splice(0);
 			for (var i = 0; i < inputDat[1].length; i++) {
-				var node = {id: inputDat[1][i][0], capacity: inputDat[1][i][1], memory: inputDat[1][i][2], net: -1, host: inputDat[1][i][0]};
+				var node = {id: inputDat[1][i][0], capacity: inputDat[1][i][1], memory: inputDat[1][i][2], net: -1, host: -1, symbol: "circle"};
 				// var node = {id: inputDat[1][i][0], capacity: inputDat[1][i][1], memory: inputDat[1][i][2]};
 				nodes.push(node);
 				hulls[node.id] = [node];
@@ -109,15 +109,23 @@ window.onload = function() {
 
 			// inserting virtual routers
 			for (var i = 0; i < AN.length; i++) {
-				var node = {id: AN[i][2], capacity: -1, memory: -1, net: AN[i][1], host: AN[i][0]};
+				var node = {id: AN[i][2], capacity: -1, memory: -1, net: AN[i][1], host: AN[i][0], symbol: "circle"};
 				nodes.push(node);
 				hulls[node.host].push(node); // insert node at respective hull
 			}
 
+			// inserting network functions
+			for (var i = 0; i < y.length; i++) {
+				var node = {id: i, nwFunction: y[i][1], instance: y[i][2], host: y[i][0], symbol: "square"};
+				nodes.push(node);
+				hulls[node.host].push(node); // insert node at respective hull
+			}
+/*
 			// create clusters' data
 			for (var i = 0; i < nodes.legth; i++) {
-				hulls.push(nodes.map(function(node) {if(parseInt(node.host)==i){return node;}}));
+				hulls.push(nodes.filter(function(node) {return node.host==i;}));
 			}
+*/
 		}
 
 		reader.readAsText(file);

@@ -3,9 +3,6 @@ var width = 800,
 
 var color = d3.scale.category20();
 
-var radius = d3.scale.sqrt()
-    .range([0, 6]);
-
 var force = d3.layout.force()
     .nodes(nodes)
     .links(links)
@@ -25,6 +22,11 @@ var node = gnodes.selectAll("g.node"),
     link = glinks.selectAll("path.link"),
     hull = ghulls.selectAll("path.hull");
 
+var symbolType = d3.scale.ordinal()
+    .domain(["circle", "square"])
+    .range([d3.svg.symbolTypes[0], d3.svg.symbolTypes[3]]);
+
+// 
 var drawHull = function(d) {
 
   var hullMembers = d.map(function(node) { return [node.x, node.y]; });
@@ -81,10 +83,16 @@ function start() {
 
   node = node.data(force.nodes());
   node.enter().append("g").attr("class", "node");
-  node.append("circle")
-      .attr("r", 8)
+  node.append("path")
+      .attr("d", d3.svg.symbol()
+        .type(function(d) {
+          return d.symbol;
+        })
+        .size(200))
       .style("fill", function(d) {
-        if (d.note > -1) {
+        //var color = d.net || d.nwFunction;
+        //alert(color);
+        if (d.net > -1 ) {
           return color((d.net+1) * 100);
         }
       });
@@ -112,7 +120,7 @@ function tick(e) {
   var k = 1 * e.alpha; // constant for virtual nodes attraction
   // this will make virtual nodes move close to their infraestructure node
   nodes.forEach(function(o, i) {
-    if (o.net > -1) {
+    if (o.host > -1) {
       o.x += (nodes[o.host].x - o.x)*k;
       o.y += (nodes[o.host].y - o.y)*k;
     }
