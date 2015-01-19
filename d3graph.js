@@ -104,12 +104,7 @@ function start() {
 
   hull = hull.data(hulls);
   hull.enter().append("path")
-      .attr("class", "hull")
-      .style("fill", "#9467bd")
-      .style("stroke", "#9467bd")
-      .style("stroke-width", 40)
-      .style("stroke-linejoin", "round")
-      .style("opacity", .2);
+      .attr("class", "hull");
   hull.exit().remove();
 
   force.start();
