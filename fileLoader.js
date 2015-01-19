@@ -11,7 +11,7 @@ var y;
 var nodes = [],
     links = [],
     hulls,
-    numNets = 1;
+    maxId = 0; // register the greatest id between virtual nets and network functions
 
 window.onload = function() {
 	var fileInputDat = document.getElementById('fileInputDat');
@@ -45,8 +45,8 @@ window.onload = function() {
 
 			nodes.splice(0);
 			for (var i = 0; i < inputDat[1].length; i++) {
-				var node = {id: inputDat[1][i][0], capacity: inputDat[1][i][1], memory: inputDat[1][i][2], net: -1, host: -1, symbol: "circle"};
-				// var node = {id: inputDat[1][i][0], capacity: inputDat[1][i][1], memory: inputDat[1][i][2]};
+				var node = {id: inputDat[1][i][0], cpu: inputDat[1][i][1], memory: inputDat[1][i][2], net: -1, host: -1, symbol: "circle"};
+				// var node = {id: inputDat[1][i][0], cpu: inputDat[1][i][1], memory: inputDat[1][i][2]};
 				nodes.push(node);
 				hulls[node.id] = [node];
 				// create hull
@@ -71,7 +71,7 @@ window.onload = function() {
 
 		reader.onload = function(e) {
 
-			var fileText = inputDat = reader.result;
+			var fileText = reader.result;
 
 			// regular expressions for each type of variable from the .out file
 			var wAux_RE = /wAux[(]\d+([,]\d+)*[)]\s+\d+[.]\d+/g;
@@ -107,11 +107,14 @@ window.onload = function() {
 				links.push(link);
 			}
 
+			maxId = 0; // restart maxId count		
 			// inserting virtual routers
 			for (var i = 0; i < AN.length; i++) {
-				var node = {id: AN[i][2], capacity: -1, memory: -1, net: AN[i][1], host: AN[i][0], symbol: "circle"};
+				var nodeData = inputDat[4].filter(function(n){return n[1] == AN[i][2];});
+				var node = {id: AN[i][2], cpu: nodeData[0][2], memory: nodeData[0][3], net: AN[i][1], host: AN[i][0], symbol: "circle"};
 				nodes.push(node);
 				hulls[node.host].push(node); // insert node at respective hull
+				if (node.net > maxId) maxId = node.net;
 			}
 
 			// inserting network functions
@@ -119,7 +122,9 @@ window.onload = function() {
 				var node = {id: i, nwFunction: y[i][1], instance: y[i][2], host: y[i][0], symbol: "square"};
 				nodes.push(node);
 				hulls[node.host].push(node); // insert node at respective hull
+				if (node.nwFunction > maxId) maxId = node.nwFunction;
 			}
+
 /*
 			// create clusters' data
 			for (var i = 0; i < nodes.legth; i++) {

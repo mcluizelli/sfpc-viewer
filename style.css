@@ -1,7 +1,8 @@
 
 .link {
   fill: none;
-  stroke-width: 1.5px;
+  stroke: #666;
+  stroke-width: 1px;
 }
 
 .node path {
