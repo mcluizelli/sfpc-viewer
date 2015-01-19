@@ -66,8 +66,8 @@ function updateGraph() {
   var nodesContainer = document.getElementById("nodesContainer");
   var linksContainer = document.getElementById("linksContainer");
 
-  nodes.splice(0); // remove all nodes from the list
-  links.splice(0); // remove all links from the list
+  nodes.splice(0); // remove all nodes' data
+  links.splice(0); // remove all links' data
 
   var nodesDivs = nodesContainer.getElementsByTagName("DIV");
   var linksDivs = linksContainer.getElementsByTagName("DIV");
@@ -99,20 +99,19 @@ function start() {
   node = node.data([]);
   node.exit().remove();
   
+  // create links
   link = link.data(force.links());
   link.enter().insert("path", ".node")
       .attr("class", "link")
       .style("stroke", generateColor);
   link.exit().remove();
 
+  // create nodes
   node = node.data(force.nodes());
   node.enter().append("g")
       .attr("class", nodeClass);
   node.append("path")
-      .attr("d", d3.svg.symbol()
-      .type(function(d) {
-        return d.symbol;
-      })
+      .attr("d", d3.svg.symbol().type(function(d) { return d.symbol; }) 
       .size(200))
       .style("fill", generateColor);
   node.append("text")
@@ -123,6 +122,7 @@ function start() {
       .on("mouseout", tip.hide);
   node.exit().remove();
 
+  // create the clusters of nodes
   hull = hull.data(hulls);
   hull.enter().append("path")
       .attr("class", "hull");
