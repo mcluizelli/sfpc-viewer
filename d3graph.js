@@ -90,10 +90,10 @@ function start() {
         })
         .size(200))
       .style("fill", function(d) {
-        //var color = d.net || d.nwFunction;
+        var colorSelector = (d.net) ? d.net:d.nwFunction;
         //alert(color);
-        if (d.net > -1 ) {
-          return color((d.net+1) * 100);
+        if (colorSelector > -1 ) {
+          return color((colorSelector+1) * 100);
         }
       });
   node.append("text")
