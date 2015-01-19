@@ -11,9 +11,14 @@ var force = d3.layout.force()
     .size([width, height])
     .on("tick", tick);
 
+var tip = d3.tip().html( function (d) {return "<strong>CPU:</strong> <span style='color:red'>" + d.cpu + "</span>";})
+
 var svg = d3.select("#graph").append("svg")
     .attr("width", width)
     .attr("height", height);
+
+svg.call(tip);
+
 var ghulls = svg.append("g"),
     glinks = svg.append("g"),
     gnodes = svg.append("g");
@@ -40,6 +45,22 @@ var drawHull = function(d) {
 
 }
 
+// set the class to different types of nodes
+var nodeClass = function(d) {
+
+  var nodeType = "";
+  if (d.net) {
+    if (d.net > -1) {
+      nodeType = "virtual";
+    } else {
+      nodeType = "infraestructure";
+    }
+  } else {
+    nodeType = "nwFunction";
+  }
+  return "node " + nodeType;
+}
+
 function updateGraph() {
 
   var nodesContainer = document.getElementById("nodesContainer");
@@ -64,6 +85,15 @@ function updateGraph() {
   start();
 }
 
+function generateColor(d){
+  if (maxId < 1) maxId = 1; // defaults to one color - avoid divide by zero
+  var colorValue = (d.net) ? d.net : d.nwFunction;
+  if (colorValue > -1) {
+    var hue = colorValue * (360 / maxId) % 360;
+    return d3.hcl(hue, 50 , 52).toString();
+  }
+}
+
 function start() {
   // remove all nodes before inserting the new ones
   node = node.data([]);
@@ -72,34 +102,25 @@ function start() {
   link = link.data(force.links());
   link.enter().insert("path", ".node")
       .attr("class", "link")
-      .attr("stroke", function(d){ 
-        if(d.net > -1) {
-          return color((d.net+1) * 100); 
-        } else {
-          return "#666"
-        }
-      });
+      .style("stroke", generateColor);
   link.exit().remove();
 
   node = node.data(force.nodes());
-  node.enter().append("g").attr("class", "node");
+  node.enter().append("g")
+      .attr("class", nodeClass);
   node.append("path")
       .attr("d", d3.svg.symbol()
         .type(function(d) {
           return d.symbol;
         })
         .size(200))
-      .style("fill", function(d) {
-        //var color = d.net || d.nwFunction;
-        //alert(color);
-        if (d.net > -1 ) {
-          return color((d.net+1) * 100);
-        }
-      });
+      .style("fill", generateColor);
   node.append("text")
       .attr("x", 12)
       .attr("dy", ".35em")
       .text(function(d) { return d.id; });
+  node.on("click", tip.show)
+      .on("mouseout", tip.hide);
   node.exit().remove();
 
   hull = hull.data(hulls);
@@ -112,7 +133,7 @@ function start() {
 
 function tick(e) {
 
-  var k = 1 * e.alpha; // constant for virtual nodes attraction
+  var k = 3 * e.alpha; // constant for virtual nodes attraction
   // this will make virtual nodes move close to their infraestructure node
   nodes.forEach(function(o, i) {
     if (o.host > -1) {
