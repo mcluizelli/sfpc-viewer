@@ -1,5 +1,5 @@
 // global data
-// inputDat is a 3-dimentional array that contain all the data of the input file
+// inputDat is a 3-dimentional array that contain all the data of the input .dat
 var inputDat;
 // variables from .out file
 var wAux;
@@ -88,7 +88,7 @@ window.onload = function() {
 			variables.push(fileText.match(AL_RE));
 			variables.push(fileText.match(y_RE));
 
-			// loop through every variable line selecting its numerical values
+			// loop through every variable line and convert it to an array with the numerical values
 			for (var i = 0; i < 5; i++) {
 				for (var j = 0; j < variables[i].length; j++) {
 					variables[i][j] = variables[i][j].match(/(\d+[.]\d+)|\d+/g);
