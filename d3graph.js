@@ -11,7 +11,14 @@ var force = d3.layout.force()
     .size([width, height])
     .on("tick", tick);
 
-var tip = d3.tip().html( function (d) {return "<strong>CPU:</strong> <span style='color:red'>" + d.cpu + "</span>";})
+var tip = d3.tip()
+    .attr('class', 'd3-tip')
+    .offset([-10, 0])
+    .html( function (d) {
+      var text = "<strong>CPU:</strong> <span style='color:red'>" + d.cpu + "</span><br>";
+      text = text + "<strong>Memory:</strong> <span style='color:red'>" + d.memory + "</span>";
+      return text;
+    });
 
 var svg = d3.select("#graph").append("svg")
     .attr("width", width)
@@ -26,10 +33,6 @@ var ghulls = svg.append("g"),
 var node = gnodes.selectAll("g.node"),
     link = glinks.selectAll("path.link"),
     hull = ghulls.selectAll("path.hull");
-
-var symbolType = d3.scale.ordinal()
-    .domain(["circle", "square"])
-    .range([d3.svg.symbolTypes[0], d3.svg.symbolTypes[3]]);
 
 // 
 var drawHull = function(d) {
@@ -61,6 +64,24 @@ var nodeClass = function(d) {
   return "node " + nodeType;
 }
 
+
+var nodeSymbols = d3.scale.ordinal()
+    .domain(["physical", "virtual", "nwFunction"])
+    .range(["circle", "circle", "square"]);
+
+var nodeSymbol = function(d) {
+  return nodeSymbols(d.type);
+}
+
+function generateColor(d){
+  if (maxId < 1) maxId = 1; // defaults to one color - avoid divide by zero
+  var colorValue = (d.net) ? d.net : d.nwFunction;
+  if (colorValue > -1) {
+    var hue = colorValue * (360 / maxId) % 360;
+    return d3.hcl(hue, 50 , 52).toString();
+  }
+}
+
 function updateGraph() {
 
   var nodesContainer = document.getElementById("nodesContainer");
@@ -85,15 +106,6 @@ function updateGraph() {
   start();
 }
 
-function generateColor(d){
-  if (maxId < 1) maxId = 1; // defaults to one color - avoid divide by zero
-  var colorValue = (d.net) ? d.net : d.nwFunction;
-  if (colorValue > -1) {
-    var hue = colorValue * (360 / maxId) % 360;
-    return d3.hcl(hue, 50 , 52).toString();
-  }
-}
-
 function start() {
   // remove all nodes before inserting the new ones
   node = node.data([]);
@@ -111,8 +123,9 @@ function start() {
   node.enter().append("g")
       .attr("class", nodeClass);
   node.append("path")
-      .attr("d", d3.svg.symbol().type(function(d) { return d.symbol; }) 
-      .size(200))
+      .attr("d", d3.svg.symbol()
+          .type(nodeSymbol)
+          .size(200))
       .style("fill", generateColor);
   node.append("text")
       .attr("x", 12)
