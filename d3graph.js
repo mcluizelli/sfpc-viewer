@@ -6,9 +6,10 @@ var color = d3.scale.category20();
 var force = d3.layout.force()
     .nodes(nodes)
     .links(links)
-    .charge(-400)
+    .gravity(0.05)
+    .charge(-600)
     .linkDistance(100)
-    .friction(0.7)
+    .friction(0.5)
     .size([width, height])
     .on("tick", tick);
 
