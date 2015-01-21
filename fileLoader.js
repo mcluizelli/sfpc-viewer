@@ -199,7 +199,7 @@ window.onload = function() {
 				var nwFunctionId = y[i][1];
 				var instance = y[i][2];
 				var nwFunction = nwFunctions[nwFunctionId][instance];
-				var node = {id: i, cpu: nwFunction.cpu, memory: nwFunction.memory, nwFunction: nwFunctionId, instance: instance, host: y[i][0], type: "nwFunction"};
+				var node = {id: instance, cpu: nwFunction.cpu, memory: nwFunction.memory, nwFunction: nwFunctionId, host: y[i][0], type: "nwFunction"};
 				nodes.push(node);
 				hulls[node.host].push(node); // insert node at respective hull
 				if (node.nwFunction > maxId) maxId = node.nwFunction;
