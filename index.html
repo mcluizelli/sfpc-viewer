@@ -48,6 +48,7 @@
         <div class="tab-pane" id="tabs-2">
           <label>.dat</label><input type='file' id='fileInputDat'>
           <label>.out</label><input type='file' id='fileInputOut'>
+          <div id="filtersMenu"></div>
         </div>
 
 
@@ -78,15 +79,15 @@
   </div>
 
   <div id="col2" class="col-md-7">
-
-     <div id="graph"></div>
-     
+    <div class="outer">
+      <div id="graph" class="inner"></div>
+    </div> 
   </div>  
 
   </div>
 
   <script src="fileLoader.js"></script>
-
+  <script src="filters.js"></script>
   <script src="d3graph.js"></script>
 
   <script type="text/javascript">

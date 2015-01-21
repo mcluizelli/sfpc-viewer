@@ -7,7 +7,8 @@ var force = d3.layout.force()
     .nodes(nodes)
     .links(links)
     .charge(-400)
-    .linkDistance(120)
+    .linkDistance(100)
+    .friction(0.7)
     .size([width, height])
     .on("tick", tick);
 
@@ -64,6 +65,12 @@ var nodeClass = function(d) {
   return "node " + nodeType;
 }
 
+// set a different class for links of each network
+var linkClass = function(d) {
+
+  return "link net" + d.net;
+
+}
 
 var nodeSymbols = d3.scale.ordinal()
     .domain(["physical", "virtual", "nwFunction"])
@@ -114,7 +121,7 @@ function start() {
   // create links
   link = link.data(force.links());
   link.enter().insert("path", ".node")
-      .attr("class", "link")
+      .attr("class", linkClass)
       .style("stroke", generateColor);
   link.exit().remove();
 
@@ -142,6 +149,7 @@ function start() {
   hull.exit().remove();
 
   force.start();
+  generateFilters();
 }
 
 function tick(e) {

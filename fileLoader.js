@@ -50,7 +50,7 @@ window.onload = function() {
 			for (var i = 0; i < inputDat[7].length; i++) {
 				var id = inputDat[7][i][0];
 				var maxDelay = inputDat[7][i][1];
-				virtualNetworks[id] = {maxDelay: maxDelay};
+				virtualNetworks[id] = {maxDelay: maxDelay, visible: true};
 			}
 
 			GRV = new Array(virtualNetworks.length);
