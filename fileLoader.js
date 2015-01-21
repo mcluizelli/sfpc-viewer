@@ -65,31 +65,37 @@ window.onload = function() {
 					var node = {cpu: inputDat[4][i][2], memory: inputDat[4][i][3], nwFunction: inputDat[4][i][4]};	
 					GRV[i][j] = node;
 				}
-			}
+			}			
 
-			// initialize GLV matrix
-			GLV = new Array(GRV.length);
-			for (var i = 0; i < GLV.length; i++) {
-				GLV[i] = new Array(GLV.length);
-			}
-
-			nwFunctions = new Array(inputDat[8].length);
+			nwFunctions = new Array(inputDat[8].length);	// initialize with the number of network functions (count the parameter N)
 			for (var i = 0; i < nwFunctions.length; i++) {
-				var functInstances = inputDat[8].filter(function(n){ return n[0] == i; });
-				nwFunctions[i] = new Array(functInstances.length);
+				var delay = inputDat[8][i][1];
+				var functInstances = inputDat[6].filter(function(n){ return n[0] == i; });	// select all the instances of the current network function
+				nwFunctions[i] = new Array(functInstances.length);	// initialize it with the number of instances
 				for (var j = 0; j < functInstances.length; j++) {
 					var instanceId = functInstances[j][1];
-					var info = {cpu: functInstances[j][2], memory: functInstances[j][3]};
+					var info = {cpu: functInstances[j][2], memory: functInstances[j][3], delay: delay};
 					nwFunctions[i][instanceId] = info;
 				}
 			}
 
+			// initialize GLV adjacence matrices
+			GLV = new Array(virtualNetworks.length); // initialize with the number of virtual networks
+			for (var i = 0; i < GLV.length; i++) {
+
+				GLV[i] = new Array(GRV[i].length);	// for each net, initialize with the number of routers of that net
+				for (var j = 0; j < GLV[i].length; j++) {
+					GLV[i][j] = new Array(GRV[i].length);	// complete the adjacence matrix
+				}
+			}
+
+			// insert the data
 			for (var i = 0; i < inputDat[3].length; i++) {
 				var o = inputDat[3][i][1],
 					d = inputDat[3][i][2],
 					capacity = inputDat[3][i][3],
-					requestId = inputDat[3][i][0];
-				GLV[o][d] = {capacity: capacity, request: requestId};
+					virtualNetId = inputDat[3][i][0];
+				GLV[virtualNetId][o][d] = {capacity: capacity};
  			}
 
 			hulls = new Array(inputDat[1].length); // initialize hulls for each infraestructure node
@@ -157,13 +163,14 @@ window.onload = function() {
 				var n1 = AL[i][0],
 					n2 = AL[i][1],
 					vn1 = AL[i][3],
-					vn2 = AL[i][4];
+					vn2 = AL[i][4],
+					vnet = AL[i][2];
 				if (n1 > n2) {
 					var swapTmp = n1;
 					n1 = n2;
 					n2 = swapTmp;
 				}
-				var link = {source: nodes[n1], target: nodes[n2], vsource: vn1, vtarget: vn2, capacity: GLV[vn1][vn2].capacity, delay: -1, net: AL[i][2]};
+				var link = {source: nodes[n1], target: nodes[n2], vsource: vn1, vtarget: vn2, capacity: GLV[vnet][vn1][vn2].capacity, delay: -1, net: vnet};
 				
 				// test if the link was already inserted
 				var alreadyInserted = false;
