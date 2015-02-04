@@ -8,7 +8,7 @@ var force = d3.layout.force()
     .links(links)
     .gravity(0.05)
     .charge(-600)
-    .linkDistance(100)
+  //  .linkDistance(100)
     .friction(0.5)
     .size([width, height])
     .on("tick", tick);
@@ -73,6 +73,14 @@ var linkClass = function(d) {
 
 }
 
+var linkDistance = function(l, i) {
+
+  var n1 = l.source, n2 = l.target;
+  var hull1 = hulls[n1.id], hull2 = hulls[n2.id];
+  return 30 + Math.max(20 * Math.min(hull1.length, hull2.length), 100);
+
+}
+
 var nodeSymbols = d3.scale.ordinal()
     .domain(["physical", "virtual", "nwFunction"])
     .range(["circle", "circle", "square"]);
@@ -81,8 +89,8 @@ var nodeSymbol = function(d) {
   return nodeSymbols(d.type);
 }
 
-function generateColor(d){
-  if (maxId < 1) maxId = 1; // defaults to one color - avoid divide by zero
+function generateColor(d, i){
+  if (maxId < 1) maxId = 1; // to avoid division by zero
   var colorValue = (d.net) ? d.net : d.nwFunction;
   if (colorValue > -1) {
     var hue = colorValue * (360 / maxId) % 360;
@@ -148,7 +156,7 @@ function start() {
   hull.enter().append("path")
       .attr("class", "hull");
   hull.exit().remove();
-
+  force = force.linkDistance(linkDistance);
   force.start();
   generateFilters();
 }

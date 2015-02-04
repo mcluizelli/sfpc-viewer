@@ -152,11 +152,11 @@ window.onload = function() {
 				}
 			}
 
-			var wAux = variables[0];
-			var delay = variables[1];
-			var AN = variables[2];
-			var AL = variables[3];
-			var y = variables[4];
+			wAux = variables[0];
+			delay = variables[1];
+			AN = variables[2];
+			AL = variables[3];
+			y = variables[4];
 
 			// inserting virtual links
 			for (var i = 0; i < AL.length; i++) {
@@ -175,7 +175,7 @@ window.onload = function() {
 				// test if the link was already inserted
 				var alreadyInserted = false;
 				for (j = 0; j < links.length; j++) {
-					if (links[j].source.id == link.source.id && links[j].target.id == link.target.id) {
+					if (links[j].source.id == link.source.id && links[j].target.id == link.target.id && links[j].net == link.net) {
 						alreadyInserted = true;
 					}
 				}
