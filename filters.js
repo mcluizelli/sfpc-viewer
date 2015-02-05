@@ -17,8 +17,8 @@ function generateFilters() {
 		var button = d3.select(this);
 		var opacity;
 		opacity = (d.visible) ? .1 : 1;
-		
-		button.transition().style("opacity", opacity);
+
+		button.select("path").transition().style("opacity", (opacity + .3));
 		if (d.type == "virtual") {
 			turnVirtualNet(d, opacity);
 		} else if (d.type == "nwFunction") {
