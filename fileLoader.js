@@ -6,7 +6,7 @@ var wAux,
 	delay,
 	AN,
 	AL,
-	y,
+	allocatedFunctions,
 	GLV,
 	GRV,
 	GNF = [],
@@ -156,7 +156,7 @@ window.onload = function() {
 			delay = variables[1];
 			AN = variables[2];
 			AL = variables[3];
-			y = variables[4];
+			allocatedFunctions = variables[4];
 
 			// inserting virtual links
 			for (var i = 0; i < AL.length; i++) {
@@ -195,11 +195,11 @@ window.onload = function() {
 			}
 
 			// inserting network functions
-			for (var i = 0; i < y.length; i++) {
-				var nwFunctionId = y[i][1];
-				var instance = y[i][2];
+			for (var i = 0; i < allocatedFunctions.length; i++) {
+				var nwFunctionId = allocatedFunctions[i][1];
+				var instance = allocatedFunctions[i][2];
 				var nwFunction = nwFunctions[nwFunctionId][instance];
-				var node = {id: instance, cpu: nwFunction.cpu, memory: nwFunction.memory, nwFunction: nwFunctionId, host: y[i][0], type: "nwFunction"};
+				var node = {id: instance, cpu: nwFunction.cpu, memory: nwFunction.memory, nwFunction: nwFunctionId, host: allocatedFunctions[i][0], type: "nwFunction"};
 				nodes.push(node);
 				hulls[node.host].push(node); // insert node at respective hull
 				if (node.nwFunction > maxId) maxId = node.nwFunction;

@@ -1,5 +1,5 @@
-var width = 800,
-    height = 600;
+var width = 1000,
+    height = 800;
 
 var color = d3.scale.category20();
 
@@ -164,7 +164,7 @@ function start() {
 function tick(e) {
 
   var k = 3 * e.alpha; // constant for virtual nodes attraction
-  // this will make virtual nodes move close to their infraestructure node
+  // this will make virtual nodes move close to the host node
   nodes.forEach(function(o, i) {
     if (o.host > -1) {
       o.x += (nodes[o.host].x - o.x)*k;
