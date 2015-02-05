@@ -10,8 +10,7 @@ function generateFilters() {
 	var physicalLinks = glinks.selectAll(".link.net-1");
 	var nwFunctionNodes = gnodes.selectAll(".node.nwFunction");
 
-	filterButtons = filterButtons.data([])
-		.exit().remove();
+	filterButtons.data([]).exit().remove();
 
 	var turnVisibility = function(d, i) {
 		var button = d3.select(this);
