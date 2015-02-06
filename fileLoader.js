@@ -160,11 +160,11 @@ window.onload = function() {
 
 			// inserting virtual links
 			for (var i = 0; i < AL.length; i++) {
-				var n1 = AL[i][0],
-					n2 = AL[i][1],
-					vn1 = AL[i][3],
-					vn2 = AL[i][4],
-					vnet = AL[i][2];
+				var n1 = AL[i][0],	// node 1
+					n2 = AL[i][1],	// node 2
+					vn1 = AL[i][3],	// virtual node 1
+					vn2 = AL[i][4],	// virtual node 2
+					vnet = AL[i][2];// virtual net
 				if (n1 > n2) {
 					var swapTmp = n1;
 					n1 = n2;
@@ -190,10 +190,10 @@ window.onload = function() {
 				var nwFunctionId = allocatedFunctions[i][1];
 				var instance = allocatedFunctions[i][2];
 				var nwFunction = nwFunctions[nwFunctionId][instance];
-				var node = {id: instance, cpu: nwFunction.cpu, memory: nwFunction.memory, nwFunction: nwFunctionId, host: allocatedFunctions[i][0], type: "nwFunction"};
+				var node = {id: instance, cpu: nwFunction.cpu, memory: nwFunction.memory, usedCpu: 0, usedMem: 0, nwFunction: nwFunctionId, host: allocatedFunctions[i][0], type: "nwFunction"};
 				var host = nodes[node.host];
 				host.usedCpu = host.usedCpu + node.cpu / host.cpu; // calculates the cpu used
-				nodes[node.host].usedCpu = host.usedCpu;
+				host.usedMem = host.usedMem + node.memory / host.memory;
 				nodes.push(node);
 				hulls[node.host].push(node); // insert node at respective hull
 				if (node.nwFunction > maxId) maxId = node.nwFunction;
@@ -207,7 +207,6 @@ window.onload = function() {
 				hulls[node.host].push(node); // insert node at respective hull
 				if (node.net > maxId) maxId = node.net;
 			}
-
 /*
 			// create clusters' data
 			for (var i = 0; i < nodes.legth; i++) {
