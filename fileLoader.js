@@ -89,7 +89,7 @@ window.onload = function() {
 				}
 			}
 
-			// insert the data
+			// insert the GLV data
 			for (var i = 0; i < inputDat[3].length; i++) {
 				var o = inputDat[3][i][1],
 					d = inputDat[3][i][2],
@@ -102,7 +102,7 @@ window.onload = function() {
 
 			nodes.splice(0);
 			for (var i = 0; i < inputDat[1].length; i++) {
-				var node = {id: inputDat[1][i][0], cpu: inputDat[1][i][1], memory: inputDat[1][i][2], net: -1, host: -1, type: "physical"};
+				var node = {id: inputDat[1][i][0], cpu: inputDat[1][i][1], memory: inputDat[1][i][2], usedCpu: 0, usedMem: 0, net: -1, host: -1, type: "physical"};
 				// var node = {id: inputDat[1][i][0], cpu: inputDat[1][i][1], memory: inputDat[1][i][2]};
 				nodes.push(node);
 				hulls[node.id] = [node];
@@ -185,6 +185,20 @@ window.onload = function() {
 			}
 
 			maxId = 0; // restart maxId count
+			// inserting network functions
+			for (var i = 0; i < allocatedFunctions.length; i++) {
+				var nwFunctionId = allocatedFunctions[i][1];
+				var instance = allocatedFunctions[i][2];
+				var nwFunction = nwFunctions[nwFunctionId][instance];
+				var node = {id: instance, cpu: nwFunction.cpu, memory: nwFunction.memory, nwFunction: nwFunctionId, host: allocatedFunctions[i][0], type: "nwFunction"};
+				var host = nodes[node.host];
+				host.usedCpu = host.usedCpu + node.cpu / host.cpu; // calculates the cpu used
+				nodes[node.host].usedCpu = host.usedCpu;
+				nodes.push(node);
+				hulls[node.host].push(node); // insert node at respective hull
+				if (node.nwFunction > maxId) maxId = node.nwFunction;
+			}
+
 			// inserting virtual routers
 			for (var i = 0; i < AN.length; i++) {
 				var vrouter = GRV[AN[i][1]][AN[i][2]];
@@ -192,17 +206,6 @@ window.onload = function() {
 				nodes.push(node);
 				hulls[node.host].push(node); // insert node at respective hull
 				if (node.net > maxId) maxId = node.net;
-			}
-
-			// inserting network functions
-			for (var i = 0; i < allocatedFunctions.length; i++) {
-				var nwFunctionId = allocatedFunctions[i][1];
-				var instance = allocatedFunctions[i][2];
-				var nwFunction = nwFunctions[nwFunctionId][instance];
-				var node = {id: instance, cpu: nwFunction.cpu, memory: nwFunction.memory, nwFunction: nwFunctionId, host: allocatedFunctions[i][0], type: "nwFunction"};
-				nodes.push(node);
-				hulls[node.host].push(node); // insert node at respective hull
-				if (node.nwFunction > maxId) maxId = node.nwFunction;
 			}
 
 /*

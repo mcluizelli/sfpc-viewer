@@ -90,10 +90,11 @@ var nodeSymbol = function(d) {
 }
 
 function generateColor(d, i){
-  if (maxId < 1) maxId = 1; // to avoid division by zero
-  var colorValue = (d.net) ? d.net : d.nwFunction;
+  var numColors = virtualNetworks.length + nwFunctions.length;
+  if (numColors < 1) numColors = 1; // to avoid division by zero
+  var colorValue = (d.net) ? d.net : d.nwFunction + virtualNetworks.length;
   if (colorValue > -1) {
-    var hue = colorValue * (360 / maxId) % 360;
+    var hue = colorValue * (360 / numColors) % 360;
     return d3.hcl(hue, 50 , 52).toString();
   }
 }
