@@ -124,9 +124,11 @@ function updateGraph() {
 }
 
 function start() {
-  // remove all nodes before inserting the new ones
+  // remove all nodes and links before inserting the new ones
   node = node.data([]);
   node.exit().remove();
+  link = link.data([]);
+  link.exit().remove();
   
   // create links
   link = link.data(force.links());

@@ -2,20 +2,20 @@
 // inputDat is a 3-dimentional array that contain all the data of the input .dat
 var inputDat;
 // variables from .out file
-var wAux,
-	delay,
-	AN,
-	AL,
-	allocatedFunctions,
-	GLV,
-	GRV,
+var wAux = [],
+	delay = [],
+	AN = [],
+	AL = [],
+	allocatedFunctions = [],
+	GLV = [],
+	GRV = [],
 	GNF = [],
 	nwFunctions = [],
 	virtualNetworks = [];
 
 var nodes = [],
     links = [],
-    hulls,
+    hulls = [],
     maxId = 0; // register the greatest id between virtual nets and network functions
 
 window.onload = function() {
@@ -23,6 +23,7 @@ window.onload = function() {
 	var fileInputOut = document.getElementById('fileInputOut');
 
 	fileInputDat.addEventListener('change', function(e) {
+
 		var file = fileInputDat.files[0];
 
 		var reader = new FileReader();
