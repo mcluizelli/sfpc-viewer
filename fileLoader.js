@@ -185,7 +185,6 @@ window.onload = function() {
 				}
 			}
 
-			maxId = 0; // restart maxId count
 			// inserting network functions
 			for (var i = 0; i < allocatedFunctions.length; i++) {
 				var nwFunctionId = allocatedFunctions[i][1];
@@ -197,16 +196,23 @@ window.onload = function() {
 				host.usedMem = host.usedMem + node.memory / host.memory;
 				nodes.push(node);
 				hulls[node.host].push(node); // insert node at respective hull
-				if (node.nwFunction > maxId) maxId = node.nwFunction;
 			}
 
 			// inserting virtual routers
 			for (var i = 0; i < AN.length; i++) {
 				var vrouter = GRV[AN[i][1]][AN[i][2]];
-				var node = {id: AN[i][2], cpu: vrouter.cpu, memory: vrouter.memory, nwFunction: vrouter.nwFunction, net: AN[i][1], host: AN[i][0], type: "virtual"};
+				var node = {id: AN[i][2], cpu: vrouter.cpu, memory: vrouter.memory, nwFunctionUsed: vrouter.nwFunction, net: AN[i][1], host: AN[i][0], type: "virtual"};
 				nodes.push(node);
+				var selectedHull = hulls[node.host];
+				// select the functions used by the node
+				var usedNFunctions = selectedHull.filter(function(d){return d.nwFunction == node.nwFunctionUsed;});
+
+				if (usedNFunctions.length > 0) {
+					var nf = usedNFunctions[0];
+					nf.usedCpu = nf.usedCpu + node.cpu / nf.cpu;
+					nf.usedMem = nf.usedMem + node.mem / nf.mem;
+				}
 				hulls[node.host].push(node); // insert node at respective hull
-				if (node.net > maxId) maxId = node.net;
 			}
 /*
 			// create clusters' data

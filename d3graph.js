@@ -16,11 +16,17 @@ var force = d3.layout.force()
 var tip = d3.tip()
     .attr('class', 'd3-tip')
     .offset([-10, 0])
-    .html( function (d) {
-      var text = "<strong>CPU:</strong> <span style='color:red'>" + d.cpu + "</span><br>";
-      text = text + "<strong>Memory:</strong> <span style='color:red'>" + d.memory + "</span>";
-      return text;
-    });
+    .html(tipText);
+
+function tipText(d) {
+  var text = "<strong>CPU:</strong> <span style='color:red'>" + d.cpu + "</span>";
+  text = text + "<br><strong>Memory:</strong> <span style='color:red'>" + d.memory + "</span>";
+  if (d.type == "physical" || d.type == "nwFunction") {
+    text = text + "<br><strong>CPU used:</strong> <span style='color:red'>" + d.usedCpu*100 + "%</span>";
+    text = text + "<br><strong>Memory used:</strong> <span style='color:red'>" + d.usedMem*100 + "%</span>";
+  }
+  return text;
+}
 
 var svg = d3.select("#graph").append("svg")
     .attr("width", width)
