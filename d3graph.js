@@ -1,7 +1,26 @@
-var width = 1000,
-    height = 800;
+var width = 800,
+    height = 600;
 
 var color = d3.scale.category20();
+
+
+  // testing zoom
+  function zoomed() {
+    container.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+  }
+
+  function dragstarted(d) {
+    d3.event.sourceEvent.stopPropagation();
+    d3.select(this).classed("dragging", true);
+  }
+
+  function dragged(d) {
+    d3.select(this).attr("cx", d.x = d3.event.x).attr("cy", d.y = d3.event.y);
+  }
+
+  function dragended(d) {
+    d3.select(this).classed("dragging", false);
+  }
 
 var force = d3.layout.force()
     .nodes(nodes)
@@ -28,15 +47,38 @@ function tipText(d) {
   return text;
 }
 
+// zoom test
+var zoom = d3.behavior.zoom()
+    .scaleExtent([0.8, 10])
+    .on("zoom", zoomed);
+
+var drag = d3.behavior.drag()
+    .origin(function(d) { return d; })
+    .on("dragstart", dragstarted)
+    .on("drag", dragged)
+    .on("dragend", dragended);
+///
+
 var svg = d3.select("#graph").append("svg")
     .attr("width", width)
-    .attr("height", height);
+    .attr("height", height)
+    .append("g") // zoom test
+    .call(zoom); // zoom test
 
+// zoom test
+var rect = svg.append("rect")
+    .attr("width", width)
+    .attr("height", height)
+    .style("fill", "none")
+    .style("pointer-events", "all");
+
+var container = svg.append("g");
+////////////
 svg.call(tip);
 
-var ghulls = svg.append("g"),
-    glinks = svg.append("g"),
-    gnodes = svg.append("g");
+var ghulls = container.append("g"),
+    glinks = container.append("g"),
+    gnodes = container.append("g");
 
 var node = gnodes.selectAll("g.node"),
     link = glinks.selectAll("path.link"),
@@ -202,5 +244,7 @@ function tick(e) {
         }
     return "M" + x1 + "," + y1 + "A" + dr + "," + dr + " 0 0,1 " + x2 + "," + y2;
   });
+
+
 
 }
