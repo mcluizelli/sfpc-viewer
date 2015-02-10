@@ -3,24 +3,9 @@ var width = 800,
 
 var color = d3.scale.category20();
 
-
-  // testing zoom
-  function zoomed() {
-    container.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
-  }
-
-  function dragstarted(d) {
-    d3.event.sourceEvent.stopPropagation();
-    d3.select(this).classed("dragging", true);
-  }
-
-  function dragged(d) {
-    d3.select(this).attr("cx", d.x = d3.event.x).attr("cy", d.y = d3.event.y);
-  }
-
-  function dragended(d) {
-    d3.select(this).classed("dragging", false);
-  }
+function zoomed() {
+  graphContainer.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+}
 
 var force = d3.layout.force()
     .nodes(nodes)
@@ -47,44 +32,35 @@ function tipText(d) {
   return text;
 }
 
-// zoom test
 var zoom = d3.behavior.zoom()
     .scaleExtent([0.8, 10])
     .on("zoom", zoomed);
 
-var drag = d3.behavior.drag()
-    .origin(function(d) { return d; })
-    .on("dragstart", dragstarted)
-    .on("drag", dragged)
-    .on("dragend", dragended);
-///
-
 var svg = d3.select("#graph").append("svg")
     .attr("width", width)
     .attr("height", height)
-    .append("g") // zoom test
-    .call(zoom); // zoom test
+    .append("g")
+    .call(zoom);
 
-// zoom test
+// draggable rectangle to move the graph
 var rect = svg.append("rect")
     .attr("width", width)
     .attr("height", height)
     .style("fill", "none")
     .style("pointer-events", "all");
 
-var container = svg.append("g");
-////////////
+var graphContainer = svg.append("g");
+
 svg.call(tip);
 
-var ghulls = container.append("g"),
-    glinks = container.append("g"),
-    gnodes = container.append("g");
+var ghulls = graphContainer.append("g"),
+    glinks = graphContainer.append("g"),
+    gnodes = graphContainer.append("g");
 
 var node = gnodes.selectAll("g.node"),
     link = glinks.selectAll("path.link"),
     hull = ghulls.selectAll("path.hull");
 
-// 
 var drawHull = function(d) {
 
   var hullMembers = d.map(function(node) { return [node.x, node.y]; });
