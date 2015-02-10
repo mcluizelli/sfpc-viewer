@@ -210,9 +210,9 @@ window.onload = function() {
 				if (usedNFunctions.length > 0) {
 					var nf = usedNFunctions[0];
 					nf.usedCpu = nf.usedCpu + node.cpu / nf.cpu;
-					nf.usedMem = nf.usedMem + node.mem / nf.mem;
+					nf.usedMem = nf.usedMem + node.memory / nf.memory;
 				}
-				hulls[node.host].push(node); // insert node at respective hull
+				selectedHull.push(node); // insert node at respective hull
 			}
 /*
 			// create clusters' data
