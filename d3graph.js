@@ -10,19 +10,24 @@ function zoomed() {
 var force = d3.layout.force()
     .nodes(nodes)
     .links(links)
-    .gravity(0.05)
+    .gravity(0.2)
     .charge(-600)
   //  .linkDistance(100)
     .friction(0.5)
     .size([width, height])
     .on("tick", tick);
 
-var tip = d3.tip()
+var nodeTip = d3.tip()
     .attr('class', 'd3-tip')
     .offset([-10, 0])
-    .html(tipText);
+    .html(nodeTipText);
 
-function tipText(d) {
+var linkTip = d3.tip()
+    .attr('class', 'd3-tip')
+    .offset([-10, 0])
+    .html(linkTipText);
+
+function nodeTipText(d) {
   var text = "<strong>CPU:</strong> <span style='color:red'>" + d.cpu + "</span>";
   text = text + "<br><strong>Memory:</strong> <span style='color:red'>" + d.memory + "</span>";
   if (d.type == "physical" || d.type == "nwFunction") {
@@ -32,15 +37,22 @@ function tipText(d) {
   return text;
 }
 
+function linkTipText(d) {
+  var text = "<strong>Capcacity:</strong> <span style='color:red'>1000" + "</span>";
+  return text;
+}
+
 var zoom = d3.behavior.zoom()
-    .scaleExtent([0.8, 10])
+    .scaleExtent([0.8, 5])
     .on("zoom", zoomed);
 
 var svg = d3.select("#graph").append("svg")
     .attr("width", width)
     .attr("height", height)
     .append("g")
-    .call(zoom);
+    .call(zoom)
+    .call(nodeTip)
+    .call(linkTip);
 
 // draggable rectangle to move the graph
 var rect = svg.append("rect")
@@ -50,8 +62,6 @@ var rect = svg.append("rect")
     .style("pointer-events", "all");
 
 var graphContainer = svg.append("g");
-
-svg.call(tip);
 
 var ghulls = graphContainer.append("g"),
     glinks = graphContainer.append("g"),
@@ -148,11 +158,13 @@ function updateGraph() {
 }
 
 function start() {
-  // remove all nodes and links before inserting the new ones
+  // remove all nodes, links and hulls before inserting the new ones
   node = node.data([]);
   node.exit().remove();
   link = link.data([]);
   link.exit().remove();
+  hull = hull.data([]);
+  hull.exit().remove();
   
   // create links
   link = link.data(force.links());
@@ -161,10 +173,15 @@ function start() {
       .style("stroke", generateColor);
   link.exit().remove();
 
+  var physicalLinks = glinks.selectAll(".link.net-1")
+      .on("click", linkTip.show)
+      .on("mouseout", linkTip.hide);
+
   // create nodes
   node = node.data(force.nodes());
   node.enter().append("g")
-      .attr("class", nodeClass);
+      .attr("class", nodeClass)
+      .attr("transform", "translate(" + width/2 + "," + height/2 + ")");
   node.append("path")
       .attr("d", d3.svg.symbol()
           .type(nodeSymbol)
@@ -174,8 +191,8 @@ function start() {
       .attr("x", 12)
       .attr("dy", ".35em")
       .text(function(d) { return d.id; });
-  node.on("click", tip.show)
-      .on("mouseout", tip.hide);
+  node.on("click", nodeTip.show)
+      .on("mouseout", nodeTip.hide);
   node.exit().remove();
 
   // create the clusters of nodes

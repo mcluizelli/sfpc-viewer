@@ -99,7 +99,7 @@ window.onload = function() {
 				GLV[virtualNetId][o][d] = {capacity: capacity};
  			}
 
-			hulls = new Array(inputDat[1].length); // initialize hulls for each infraestructure node
+			hulls = new Array(inputDat[1].length); // initialize hulls for each infrastructure node
 
 			nodes.splice(0);
 			for (var i = 0; i < inputDat[1].length; i++) {
@@ -113,7 +113,7 @@ window.onload = function() {
 
 			links.splice(0);
 			for (var i = 0; i < inputDat[0].length; i=i+2) {
-				var link = {source: nodes[inputDat[0][i][0]], target: nodes[inputDat[0][i][1]], capacity: inputDat[0][i][2], delay: inputDat[0][i][3], net: -1}; // -1 indicates infraestructure links
+				var link = {source: nodes[inputDat[0][i][0]], target: nodes[inputDat[0][i][1]], capacity: inputDat[0][i][2], delay: inputDat[0][i][3], net: -1}; // -1 indicates infrastructure links
 				links.push(link);
 			}
 						

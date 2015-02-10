@@ -67,7 +67,7 @@ function generateFilters() {
 		} else if (d.type == "virtual"){
 			text = "Net " + d.id;
 		} else {
-			text = "Infraestructure";
+			text = "Infrastructure";
 		}
 		return text;
 	}
