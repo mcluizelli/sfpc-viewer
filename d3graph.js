@@ -221,6 +221,4 @@ function tick(e) {
     return "M" + x1 + "," + y1 + "A" + dr + "," + dr + " 0 0,1 " + x2 + "," + y2;
   });
 
-
-
 }
