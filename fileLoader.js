@@ -113,7 +113,21 @@ window.onload = function() {
 
 			links.splice(0);
 			for (var i = 0; i < inputDat[0].length; i=i+2) {
-				var link = {source: nodes[inputDat[0][i][0]], target: nodes[inputDat[0][i][1]], capacity: inputDat[0][i][2], delay: inputDat[0][i][3], net: -1}; // -1 indicates infrastructure links
+				var n1 = inputDat[0][i][0],
+					n2 = inputDat[0][i][1];
+
+				var capacity = new Array();
+					capacity[n1+'-'+n2] = {total: inputDat[0][i][2], used:0};
+					capacity[n2+'-'+n1] = {total: inputDat[0][i+1][2], used:0};
+
+				// this ensures that all links will have n1 < n2
+				if (n1 > n2) {
+					var swapTmp = n1;
+					n1 = n2;
+					n2 = swapTmp;
+				}
+				var link = {source: nodes[n1], target: nodes[n2], capacity: capacity, delay: inputDat[0][i][3], net: -1}; // -1 indicates infrastructure links
+
 				links.push(link);
 			}
 						
@@ -165,24 +179,37 @@ window.onload = function() {
 					n2 = AL[i][1],	// node 2
 					vn1 = AL[i][3],	// virtual node 1
 					vn2 = AL[i][4],	// virtual node 2
-					vnet = AL[i][2];// virtual net
+					vnet = AL[i][2],// virtual net
+					requiredCap = GLV[vnet][vn1][vn2].capacity, // amount of capacity of the host link used by the virtual link
+					way = n1+'-'+n2; // the way of the link flux (used to count the capacity of the physical link in this way)
+
 				if (n1 > n2) {
 					var swapTmp = n1;
 					n1 = n2;
 					n2 = swapTmp;
 				}
-				var link = {source: nodes[n1], target: nodes[n2], vsource: vn1, vtarget: vn2, capacity: GLV[vnet][vn1][vn2].capacity, delay: -1, net: vnet};
-				
+				// getting the host physical link
+				var plink = links.filter(function(l) {return l.source.id == n1 && l.target.id == n2 && l.net == -1});
+				plink = plink[0]; // select the first element from the filter result
+				plink.capacity[way] = plink.capacity[way] + requiredCap; // update the capacity used of the host physical link
+
 				// test if the link was already inserted
 				var alreadyInserted = false;
 				for (j = 0; j < links.length; j++) {
-					if (links[j].source.id == link.source.id && links[j].target.id == link.target.id && links[j].net == link.net) {
+					if (links[j].source.id == n1 && links[j].target.id == n2 && links[j].net == vnet) {
 						alreadyInserted = true;
+						var link = links[j];
+						link.capacity[way] = requiredCap;
+						break;
 					}
 				}
 				if (!alreadyInserted) {
+					var capacity = new Array();
+					capacity[way] = requiredCap;
+					var link = {source: nodes[n1], target: nodes[n2], vsource: vn1, vtarget: vn2, capacity: capacity, delay: -1, net: vnet};
 					links.push(link);
 				}
+
 			}
 
 			// inserting network functions
@@ -192,8 +219,8 @@ window.onload = function() {
 				var nwFunction = nwFunctions[nwFunctionId][instance];
 				var node = {id: instance, cpu: nwFunction.cpu, memory: nwFunction.memory, usedCpu: 0, usedMem: 0, nwFunction: nwFunctionId, host: allocatedFunctions[i][0], type: "nwFunction"};
 				var host = nodes[node.host];
-				host.usedCpu = host.usedCpu + node.cpu / host.cpu; // calculates the cpu used
-				host.usedMem = host.usedMem + node.memory / host.memory;
+				host.usedCpu = host.usedCpu + node.cpu; // calculates the cpu used
+				host.usedMem = host.usedMem + node.memory;
 				nodes.push(node);
 				hulls[node.host].push(node); // insert node at respective hull
 			}

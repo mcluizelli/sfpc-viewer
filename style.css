@@ -38,6 +38,18 @@ text {
   border-radius: 2px;
 }
 
+div.tooltip {   
+  position: absolute;           
+  text-align: center;                  
+  padding: 10px;             
+  font: 12px sans-serif;        
+  background: rgba(0, 0, 0, 0.8); 
+  color: #fff; 
+  border: 0px;      
+  border-radius: 8px;           
+  pointer-events: none;         
+}
+
 /* Creates a small triangle extender for the tooltip */
 .d3-tip:after {
   box-sizing: border-box;
