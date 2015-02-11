@@ -1,17 +1,7 @@
-.outer {
-    width: 800px;
-    height: 600px;
-    overflow: auto;
-}
-.inner {
-    width: 1000px;
-    height: 800px;
-}
-
 svg {
     display: block;
-    width: 100%;
-    height: 100%;
+    width: 800;
+    height: 600;
 }
 
 .link {
