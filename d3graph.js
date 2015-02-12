@@ -67,7 +67,7 @@ var drawHull = function(d) {
 var nodeClass = function(d) {
 
   var nodeType = "";
-  if (d.net) {
+  if (d.hasOwnProperty('net')) {
     if (d.net > -1) {
       nodeType = "virtual";
     } else {
@@ -105,7 +105,7 @@ var nodeSymbol = function(d) {
 function generateColor(d, i){
   var numColors = virtualNetworks.length + nwFunctions.length;
   if (numColors < 1) numColors = 1; // to avoid division by zero
-  var colorValue = (d.net) ? d.net : d.nwFunction + virtualNetworks.length;
+  var colorValue = (d.hasOwnProperty('net')) ? d.net : d.nwFunction + virtualNetworks.length;
   if (colorValue > -1) {
     var hue = colorValue * (360 / numColors) % 360;
     return d3.hcl(hue, 50 , 52).toString();
@@ -215,7 +215,7 @@ function tick(e) {
         // Assuming a simple curve, decrease dr to space curves.
         // There's probably a better decay function that spaces things nice and evenly. 
         if(d.net > -1) {
-          dr = Math.sqrt(dx * dx + dy * dy) - Math.sqrt(300 * (d.net));
+          dr = Math.sqrt(dx * dx + dy * dy) - Math.sqrt(300 * d.net);
         } else {
           dr = 0;
         }
