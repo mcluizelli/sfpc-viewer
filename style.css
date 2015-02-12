@@ -33,20 +33,21 @@ text {
   line-height: 1;
   font-weight: bold;
   padding: 12px;
+  font: 12px sans-serif; 
   background: rgba(0, 0, 0, 0.8);
   color: #fff;
   border-radius: 2px;
 }
 
-div.tooltip {   
-  position: absolute;           
-  text-align: center;                  
-  padding: 10px;             
+div.tooltip { 
+  line-height: 1;
+  font-weight: bold;
+  position: absolute;                  
+  padding: 12px;             
   font: 12px sans-serif;        
   background: rgba(0, 0, 0, 0.8); 
-  color: #fff; 
-  border: 0px;      
-  border-radius: 8px;           
+  color: #fff;    
+  border-radius: 2px;           
   pointer-events: none;         
 }
 
@@ -61,10 +62,6 @@ div.tooltip {
   content: "\25BC";
   position: absolute;
   text-align: center;
-}
-
-/* Style northward tooltips differently */
-.d3-tip.n:after {
   margin: -1px 0 0 0;
   top: 100%;
   left: 0;

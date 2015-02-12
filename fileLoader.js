@@ -44,6 +44,9 @@ window.onload = function() {
 				for (var j = 0; j < inputDat[i].length; j++) {
 					inputDat[i][j] = inputDat[i][j].split("\t"); 
 					inputDat[i][j].splice(0,1);
+					for(n in inputDat[i][j]) {
+						inputDat[i][j][n] = parseInt(inputDat[i][j][n]);
+					}
 				}
 			}
 			
@@ -164,6 +167,9 @@ window.onload = function() {
 			for (var i = 0; i < 5; i++) {
 				for (var j = 0; j < variables[i].length; j++) {
 					variables[i][j] = variables[i][j].match(/(\d+[.]\d+)|\d+/g);
+					for(n in variables[i][j]) {
+						variables[i][j][n] = parseInt(variables[i][j][n]);
+					}
 				}
 			}
 
@@ -180,7 +186,7 @@ window.onload = function() {
 					vn1 = AL[i][3],	// virtual node 1
 					vn2 = AL[i][4],	// virtual node 2
 					vnet = AL[i][2],// virtual net
-					requiredCap = GLV[vnet][vn1][vn2].capacity, // amount of capacity of the host link used by the virtual link
+					requiredCap = parseInt(GLV[vnet][vn1][vn2].capacity), // amount of capacity of the host link used by the virtual link
 					way = n1+'-'+n2; // the way of the link flux (used to count the capacity of the physical link in this way)
 
 				if (n1 > n2) {
@@ -191,7 +197,7 @@ window.onload = function() {
 				// getting the host physical link
 				var plink = links.filter(function(l) {return l.source.id == n1 && l.target.id == n2 && l.net == -1});
 				plink = plink[0]; // select the first element from the filter result
-				plink.capacity[way] = plink.capacity[way] + requiredCap; // update the capacity used of the host physical link
+				plink.capacity[way].used = plink.capacity[way].used + requiredCap; // update the capacity used of the host physical link
 
 				// test if the link was already inserted
 				var alreadyInserted = false;

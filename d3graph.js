@@ -22,55 +22,6 @@ var nodeTip = d3.tip()
     .offset([-10, 0])
     .html(nodeTipText);
 
-var linkTip = d3.tip()
-    .attr('class', 'd3-tip')
-    .html(linkTipText)
-    .offset(linkTipOffset);
-
-function linkTipOffset(d) {
-  var n1 = d.source,
-      n2 = d.target;
-
-  var offset = (Math.abs(n2.y - n1.y)) ;
-  return [offset - 5, 0];
-}
-
-// testing tooltip
-var tooltip = d3.select("body").append("div")   
-    .attr("class", "tooltip s")               
-    .style("opacity", 0);
-var showTooltip = function(d) {      
-  tooltip.transition().duration(200).style("opacity", .9);      
-  tooltip.html(linkTipText(d))
-    .style("left", (d3.event.pageX) + "px")     
-    .style("top", (d3.event.pageY - 28) + "px"); 
-}
-var hideTooltip = function() {
-  d3.select(this).transition().style("stroke-width", 1);  
-  tooltip.transition().duration(200).style("opacity", 0);   
-}
-    /////////
-
-function nodeTipText(d) {
-  var text = "<strong>CPU:</strong> <span style='color:red'>" + d.cpu + "</span>";
-  text = text + "<br><strong>Memory:</strong> <span style='color:red'>" + d.memory + "</span>";
-  if (d.type == "physical" || d.type == "nwFunction") {
-    text = text + "<br><strong>CPU used:</strong> <span style='color:red'>" + d.usedCpu/d.cpu*100 + "%</span>";
-    text = text + "<br><strong>Memory used:</strong> <span style='color:red'>" + d.usedMem/d.memory*100 + "%</span>";
-  }
-  return text;
-}
-
-function linkTipText(d) {
-  var text = '';
-  d.capacity.forEach(function(c, i) {
-    text = text + "<strong>Capcacity " + i + ":</strong>";
-    text = text + "<strong>Total:</strong> <span style='color:red'>" + c.total + "</span>";
-    text = text + "<br><strong>Used:</strong> <span style='color:red'>" + c.used/c.total*100 + "%</span>";
-  });
-  return text;
-}
-
 var zoom = d3.behavior.zoom()
     .scaleExtent([0.8, 5])
     .on("zoom", zoomed);
@@ -80,8 +31,7 @@ var svg = d3.select("#graph").append("svg")
     .attr("height", height)
     .append("g")
     .call(zoom)
-    .call(nodeTip)
-    .call(linkTip);
+    .call(nodeTip);
 
 // draggable rectangle to move the graph
 var rect = svg.append("rect")
@@ -203,12 +153,12 @@ function start() {
   link.exit().remove();
 
   var physicalLinks = glinks.selectAll(".link.net-1")
-      .on("click", showTooltip)
-      .on("mouseout", hideTooltip)
+      .on("click", showLinkTooltip)
+      .on("mouseout", hideLinkTooltip)
       .on("mouseover", function() {
         d3.select(this).transition()
           .duration(1)
-          .style("stroke-width", 4);
+          .style("stroke-width", 6);
       });
 
   // create nodes
