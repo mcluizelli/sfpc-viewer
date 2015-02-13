@@ -7,6 +7,12 @@ function zoomed() {
   graphContainer.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
 }
 
+var dragNode = d3.behavior.drag()
+    .origin(function(d) { return d; })
+    .on("dragstart", dragstarted)
+    .on("drag", dragged)
+    .on("dragend", dragended);
+
 var force = d3.layout.force()
     .nodes(nodes)
     .links(links)
@@ -19,8 +25,8 @@ var force = d3.layout.force()
 
 var nodeTip = d3.tip()
     .attr('class', 'd3-tip')
-    .offset([-10, 0])
-    .html(nodeTipText);
+    .offset([-10, 0]);
+    //.html(nodeTipText);
 
 var zoom = d3.behavior.zoom()
     .scaleExtent([0.8, 5])
@@ -153,8 +159,12 @@ function start() {
   link.exit().remove();
 
   var physicalLinks = glinks.selectAll(".link.net-1")
-      .on("click", showLinkTooltip)
-      .on("mouseout", hideLinkTooltip)
+  /*    .on("click", showLinkTooltip)
+      .on("mouseout", hideLinkTooltip) */
+      .on("mouseout", function() {
+        d3.select(this).transition()
+          .style("stroke-width", 1);
+      })
       .on("mouseover", function() {
         d3.select(this).transition()
           .duration(1)
@@ -176,7 +186,9 @@ function start() {
       .attr("dy", ".35em")
       .text(function(d) { return d.id; });
   node.on("click", nodeTip.show)
-      .on("mouseout", nodeTip.hide);
+      .on("mouseout", nodeTip.hide)
+      .call(dragNode)
+      .on("mousedown", function() { /*d3.event.stopPropagation();*/ });
   node.exit().remove();
 
   // create the clusters of nodes
@@ -222,4 +234,40 @@ function tick(e) {
     return "M" + x1 + "," + y1 + "A" + dr + "," + dr + " 0 0,1 " + x2 + "," + y2;
   });
 
+}
+
+function dragstarted(d) {
+  var parentHull = hulls[d.host];
+  var id = parentHull.indexOf(d);
+  parentHull.splice(id,1);
+  d.host = -2;
+  hull.attr("d", drawHull);
+  d3.event.sourceEvent.stopPropagation();
+  d3.select(this).classed("dragging", true);
+}
+
+function dragged(d) {
+  d.x += d3.event.dx;
+  d.y += d3.event.dy;
+  d3.select(this).attr("transform", function(d,i){
+      return "translate(" + [ d.x,d.y ] + ")"
+  });
+  //force.resume();
+}
+
+function dragended(d) {
+  var physicalNodes = nodes.filter(function(n){return n.net == -1});
+  var distance = Infinity;
+  var newHost = -1;
+  physicalNodes.forEach(function(n){
+    var tmpDist = (n.x-d.x) * (n.x - d.x) + (n.y-d.y)*(n.y-d.y);
+    if (tmpDist < distance) {
+      distance = tmpDist;
+      newHost = n.id;
+    }
+  });
+  hulls[newHost].push(d);
+  d.host = newHost;
+  d3.select(this).classed("dragging", false);
+  force.alpha(.05);
 }
