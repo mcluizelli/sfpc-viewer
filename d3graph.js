@@ -185,11 +185,12 @@ function start() {
       .attr("x", 12)
       .attr("dy", ".35em")
       .text(function(d) { return d.id; });
-  node.on("click", nodeTip.show)
-      .on("mouseout", nodeTip.hide)
-      .call(dragNode)
-      .on("mousedown", function() { /*d3.event.stopPropagation();*/ });
+  node.on("mouseover", nodeTip.show)
+      .on("mouseout", nodeTip.hide);
   node.exit().remove();
+
+  var virtualNodes = gnodes.selectAll("g.node.virtual");
+  virtualNodes.call(dragNode);
 
   // create the clusters of nodes
   hull = hull.data(hulls);
@@ -242,7 +243,9 @@ function dragstarted(d) {
   parentHull.splice(id,1);
   d.host = -2;
   hull.attr("d", drawHull);
+  console.log(d3.event.sourceEvent.target);
   d3.event.sourceEvent.stopPropagation();
+  force.stop();
   d3.select(this).classed("dragging", true);
 }
 
