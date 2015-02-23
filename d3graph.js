@@ -25,8 +25,8 @@ var force = d3.layout.force()
 
 var nodeTip = d3.tip()
     .attr('class', 'd3-tip')
-    .offset([-10, 0]);
-    //.html(nodeTipText);
+    .offset([-10, 0])
+    .html(nodeTipText);
 
 var zoom = d3.behavior.zoom()
     .scaleExtent([0.8, 5])
@@ -159,12 +159,8 @@ function start() {
   link.exit().remove();
 
   var physicalLinks = glinks.selectAll(".link.net-1")
-  /*    .on("click", showLinkTooltip)
-      .on("mouseout", hideLinkTooltip) */
-      .on("mouseout", function() {
-        d3.select(this).transition()
-          .style("stroke-width", 1);
-      })
+      .on("click", showLinkTooltip)
+      .on("mouseout", hideLinkTooltip)
       .on("mouseover", function() {
         d3.select(this).transition()
           .duration(1)
@@ -186,6 +182,7 @@ function start() {
       .attr("dy", ".35em")
       .text(function(d) { return d.id; });
   node.on("mouseover", nodeTip.show)
+      .on("mousedown", nodeTip.hide)
       .on("mouseout", nodeTip.hide);
   node.exit().remove();
 
