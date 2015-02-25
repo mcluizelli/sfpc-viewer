@@ -5,19 +5,17 @@
 <head>
   <meta charset="utf-8">
   <title>jQuery UI Tabs - Default functionality</title>
+
   <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
   <script src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
-  
+  <script src="bootstrap.min.js"></script>
+  <script>
+  $(function() {
+    $( "#tabs" ).tabs();
+  });
+  </script>
   <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
   <script src="D3-tip.js" charset="utf-8"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js" charset="utf-8"></script>
-
-  <script>
-    $(function() {
-      $( "#tabs" ).tabs();
-    });
-  </script>
-
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
   <link rel="stylesheet" href="style.css">
@@ -29,6 +27,7 @@
     
     <div id="tabs">
       <ul class="nav nav-tabs" role="tablist">
+        
         <li><a href="#tabs-2">SFC Requests</a></li>
         <li><a href="#tabs-3">Physical Topology</a></li>
         <li><a href="#tabs-4">Network Functions</a></li>
@@ -52,41 +51,8 @@
         </div>
         
         <div class="tab-pane" id="tabs-2">
-          <div class="row text-center">
-            <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#largeModal">New request</button>
-          </div>
-
-
-          <div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                  <h4 class="modal-title" id="myModalLabel">Large Modal</h4>
-                </div>
-                <div class="modal-body">
-                  <div class="form-group">
-                    <input type="number" class="form-control input-sm" min="1" id="numNodes" placeholder="Nodes">
-                    <input type="number" class="form-control input-sm " min="0" id="numLinks" placeholder="Links">
-                  </div>
-                  <button type="submit" class="btn btn-primary" onClick="addInputs()">Generate</button>
-                  <button type="submit" class="btn btn-primary" onClick="addNode()">Add node</button>
-                  <button type="submit" class="btn btn-primary" onClick="addLink()">Add link</button>
-                  <hr>
-                  <form role="form" class="form-inline">
-                    <div id="nodesContainer" class="form-group"></div>
-                    <hr>
-                    <div id="linksContainer" class="form-group"></div>
-                  </form>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
-              </div>
-            </div>
-          </div>
-
+          <label>.dat</label><input type='file' id='fileInputDat'>
+          <label>.out</label><input type='file' id='fileInputOut'>
         </div>
 
 
@@ -154,6 +120,37 @@
           </div>
         </div>
 
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+
+        <script>
+        $('#btAdd').on('click', function(){
+          var table = document.getElementById('nf-table');
+          var row = table.insertRow(1);
+          var cellID = row.insertCell(0);
+          var cellNF = row.insertCell(1);
+          var cellMEM = row.insertCell(2);
+          var cellCPU = row.insertCell(3);
+          var cellINST = row.insertCell(4);
+          var cellBTN = row.insertCell(5);
+
+          cellID.innerHTML = document.getElementById('nf-id').value;
+          cellNF.innerHTML = document.getElementById('nf-name').value;
+          cellMEM.innerHTML = document.getElementById('mem-nf').value;
+          cellCPU.innerHTML = document.getElementById('cpu-nf').value;
+          cellINST.innerHTML = document.getElementById('inst-nf').value;
+
+          cellBTN.innerHTML = "<center><button type='button' class='btn btn-danger btn-xs' id='removeID' onClick='$(this).parent().parent().remove()'>Remove</button> <button type='button' class='btn btn-default btn-xs' data-toggle=modal' data-target='#modal1' data-whatever='@mdo'>Edit</button></center>";
+          
+        })
+
+        $('#btClear').on('click', function(){
+          $('#nf-table tr:not(:first)').remove();
+        })    
+        </script>
 
         <div class="tab-pane" id="tabs-5">
           <label>.dat</label><input type='file' id='fileInputDat'>
@@ -164,7 +161,7 @@
       </div>
    </div>
       
-   
+
 
   <ul class="pager">
       <li><a href="#">Previous</a></li>
@@ -180,8 +177,7 @@
       <div id="graph"></div>
   </div>  
 
-
-
+  </div>
 
   <script src="fileLoader.js"></script>
   <script src="filters.js"></script>
@@ -189,54 +185,32 @@
   <script src="d3graph.js"></script>
 
   <script type="text/javascript">
-    function addNode() {
-      var newId = $('#nodesContainer').children().length;
-      var label = $("<label/>", {
-        html: "Node " + newId
-      });
-      var input = $("<input/>", {
-        name: "capacity",
-        type: "text",
-        class: "form-control input-sm",
-        placeholder: "capacity"
-      });
-      var radioOption = $("<input/>", {
-        type:"radio",
-        name:"nodeType"+newId
-      });
-      var radio = $("<div/>").attr("class", "radio");
-      radio.append(radioOption.html("opt1"));
-      
-      /*<div class="dropdown">
-        <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Dropdown trigger
-          <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-          ...
-        </ul>
-      </div>*/
-      var div = $("<div/>", {
-        id: "node"+newId
-      }).append(label)
-        .append(input)
-        .append(radio)
-        .appendTo("#nodesContainer");
-    }
     function addInputs() {
       var nodesContainer = document.getElementById("nodesContainer");
       var linksContainer = document.getElementById("linksContainer");
       var nodes = document.getElementById("numNodes").value;
       var links = document.getElementById("numLinks").value;
-      // removing forms generated previously
+      
       while (nodesContainer.hasChildNodes()) {
           nodesContainer.removeChild(nodesContainer.lastChild);
       }
+
       while (linksContainer.hasChildNodes()) {
           linksContainer.removeChild(linksContainer.lastChild);
       }
+
       for(i=0;i<nodes;i++) { 
-        addNode();
+        var div = document.createElement("div");
+        div.id = "node"+i
+        var input = document.createElement("input");
+        input.type = "text";
+        input.className = "form-control input-sm";
+        var name = "capacity";
+        //input.value = name;
+        input.name = name;
+        input.placeholder = name;
+        div.appendChild(input);
+        nodesContainer.appendChild(div);
       }
       
       for(i=0;i<links;i++) {
