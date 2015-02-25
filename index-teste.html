@@ -58,16 +58,20 @@
 
         <div class="tab-pane" id="tabs-3">
           
-            <div class="form-group">
-              <input type="number" class="form-control input-sm" min="1" id="numNodes" placeholder="Nodes">
-              <input type="number" class="form-control input-sm " min="0" id="numLinks" placeholder="Links">
-            </div>
-            <button type="submit" class="btn btn-primary" onClick="addInputs()">Generate</button>
+          <div class="form-group">
+            <input type="number" class="form-control input-sm" min="1" id="numNodes" placeholder="Nodes">
+            <input type="number" class="form-control input-sm " min="0" id="numLinks" placeholder="Links">
+          </div>
+          
+          <button type="submit" class="btn btn-primary" onClick="addInputs()">Generate</button>
+          
           <form role="form" class="form-inline">
             <div id="nodesContainer" class="form-group"></div>
             <div id="linksContainer" class="form-group"></div>
           </form>
+          
           <button type="submit" class="btn btn-primary" onClick="updateGraph()">Update Nodes</button>
+        
         </div>
 
         <div class="tab-pane" id="tabs-4">
