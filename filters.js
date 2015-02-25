@@ -6,7 +6,6 @@ var filterButtons = filterMenu.selectAll("g");
 
 function generateFilters() {
 
-	filterMenu.attr("height", 20*virtualNetworks.length + 40);
 	var physicalLinks = glinks.selectAll(".link.net-1");
 	var nwFunctionNodes = gnodes.selectAll(".node.nwFunction");
 
@@ -43,6 +42,7 @@ function generateFilters() {
 		buttons.push({visible:true, type:"nwFunction", id:d});
 	});
 
+	filterMenu.attr("height", 20*buttons.length + 40);
 	
 	filterButtons = filterButtons.data(buttons);
 	filterButtons.enter().append("g")
