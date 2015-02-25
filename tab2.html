@@ -1,0 +1,34 @@
+<div class="row text-center">
+  <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#largeModal">New request</button>
+</div>
+
+
+<div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Large Modal</h4>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <input type="number" class="form-control input-sm" min="1" id="numNodes" placeholder="Nodes">
+          <input type="number" class="form-control input-sm " min="0" id="numLinks" placeholder="Links">
+        </div>
+        <button type="submit" class="btn btn-primary" onClick="addInputs()">Generate</button>
+        <button type="submit" class="btn btn-primary" onClick="addNode()">Add node</button>
+        <button type="submit" class="btn btn-primary" onClick="addLink()">Add link</button>
+        <hr>
+        <form role="form" class="form-inline">
+          <div id="nodesContainer" class="form-group"></div>
+          <hr>
+          <div id="linksContainer" class="form-group"></div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
