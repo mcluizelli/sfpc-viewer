@@ -51,9 +51,18 @@ function addNode() {
 function addLink() {
   var input = $("<input/>", {type:"number", class:"form-control input-sm"});
   var div = $("<div/>")
-  div.append($("<label/>").html("Source ").append(input.clone().attr("id", "linkSource")))
-    .append($("<label/>").html("Target ").append(input.clone().attr("id", "linkTarget")))
-    .append($("<label/>").html("Capacity ").append(input.clone().attr("id", "linkCapacity")))
+  div.append($("<label/>", {
+      for:"link-source",
+      html:"Source "
+    }).append(input.clone().attr("id", "link-source")))
+    .append($("<label/>", {
+      for:"link-target",
+      html:"Target "
+    }).append(input.clone().attr("id", "link-target")))
+    .append($("<label/>", {
+      for:"link-capacity",
+      html:"Capacity "
+    }).append(input.clone().attr("id", "link-capacity")))
     .appendTo("#linksContainer");
 
 }
