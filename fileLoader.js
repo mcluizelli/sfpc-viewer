@@ -30,13 +30,6 @@ window.onload = function() {
 
 		reader.onload = function(e) {
 
-			///// JSON TEST ////////////////////
-
-
-			//var result = JSON.parse(reader.result);
-
-
-			////////////////////
 			// get each part of the inputDat separated by ',' and removing the parts that are not important
 			inputDat = reader.result.split(";");
 			inputDat.splice(0,1);
