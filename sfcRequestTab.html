@@ -1,5 +1,5 @@
 <div class="row text-center">
-  <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#largeModal">New request</button>
+  <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#sfc-req-panel">New request</button>
   <table class="table table-hover" id="sfc-req-table">
     <tr class="active">
       <td><b>Request</b></td>
@@ -20,7 +20,7 @@
 </div>
 
 
-<div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
+<div class="modal fade" id="sfc-req-panel" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
@@ -46,12 +46,13 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" onClick="saveRequest()">Save changes</button>
+        <button type="button" id="sfc-req-bt" class="btn btn-primary" onClick="saveRequest()">Save changes</button>
       </div>
     </div>
   </div>
+</div>
 
-  <div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
+<div class="modal fade" id="update-req-panel" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">

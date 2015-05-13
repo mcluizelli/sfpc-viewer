@@ -10,21 +10,21 @@ var wAux = [],
 	GLV = [],
 	GRV = [],
 	GNF = [],
-	nwFunctions = [],
+	nwFunctions = [], // GNF
 	virtualNetworks = [];
 
 var nodes = [],
     links = [],
     hulls = [],
-    maxId = 0; // register the greatest id between virtual nets and network functions
+    maxId = 0; // registers the greatest id between virtual nets and network functions
 
 window.onload = function() {
-	var fileInputDat = document.getElementById('fileInputDat');
-	var fileInputOut = document.getElementById('fileInputOut');
+	var ptFileInput = document.getElementById('pt-file-input');
+	var sfcReqFileInput = document.getElementById('sfc-req-file-input');
 
-	fileInputDat.addEventListener('change', function(e) {
+	ptFileInput.addEventListener('change', function(e) {
 
-		var file = fileInputDat.files[0];
+		var file = ptFileInput.files[0];
 
 		var reader = new FileReader();
 
@@ -32,11 +32,12 @@ window.onload = function() {
 
 			///// JSON TEST ////////////////////
 
-
-			//var result = JSON.parse(reader.result);
+			var result = JSON.parse(reader.result);
 
 
 			////////////////////
+
+			/*
 			// get each part of the inputDat separated by ',' and removing the parts that are not important
 			inputDat = reader.result.split(";");
 			inputDat.splice(0,1);
@@ -110,7 +111,7 @@ window.onload = function() {
  			}
 
 			hulls = new Array(inputDat[1].length); // initialize hulls for each infrastructure node
-
+			
 			nodes.splice(0);
 			for (var i = 0; i < inputDat[1].length; i++) {
 				var node = {id: inputDat[1][i][0], cpu: inputDat[1][i][1], memory: inputDat[1][i][2], usedCpu: 0, usedMem: 0, net: -1, host: -1, type: "physical"};
@@ -140,21 +141,32 @@ window.onload = function() {
 
 				links.push(link);
 			}
-						
+			*/
+
+			nodes.splice(0);
+			for (var i = 0; i < result.nodes.length; i++) {
+				nodes.push(result.nodes[i]);
+			}
+
+			links.splice(0);
+			for (var i = 0; i < result.links.length; i++) {
+				links.push(result.links[i]);
+			}
 		}
 
 		reader.readAsText(file);	
 	});
 
-	fileInputOut.addEventListener('change', function(e) {
-		var file = fileInputOut.files[0];
+	sfcReqFileInput.addEventListener('change', function(e) {
+		var file = sfcReqFileInput.files[0];
 
 		var reader = new FileReader();
 
 		reader.onload = function(e) {
 
-			var fileText = reader.result;
-
+			virtualNetworks = JSON.parse(reader.result);
+ 
+			/*
 			// regular expressions for each type of variable from the .out file
 			var wAux_RE = /wAux[(]\d+([,]\d+)*[)]\s+\d+[.]\d+/g;
 			var delay_RE = /delayAuxPath[(]\d+([,]\d+)*[)]\s+\d+[.]\d+/g;
