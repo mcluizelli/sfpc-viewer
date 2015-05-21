@@ -5,8 +5,8 @@
 		{"id":"2", "cpu":"1000", "memory":"256"}
 	],
 	"links":[
-		{"source":"1", "target":"0", "capacity":"1000"}, 
-		{"source":"2", "target":"1", "capacity":"1000"}, 
-		{"source":"2", "target":"0", "capacity":"1000"}
+		{"source":"1", "target":"0", "capacity":{"s-t":1000, "t-s":1000}}, 
+		{"source":"2", "target":"1", "capacity":{"s-t":1000, "t-s":1000}}, 
+		{"source":"2", "target":"0", "capacity":{"s-t":1000, "t-s":1000}}
 	]
 }

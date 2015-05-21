@@ -32,7 +32,6 @@ window.onload = function() {
 
 			var result = JSON.parse(reader.result);
 
-
 			hulls = new Array(result.nodes.length);
 			nodes.splice(0);
 			for (var i = 0; i < result.nodes.length; i++) {
@@ -83,7 +82,6 @@ vnode-obj {
 	id
 	cpu
 	nfUsed
-	mem
 	net
 	host
 	type
@@ -116,7 +114,6 @@ nfnode-obj {
 
 			virtualNetworks = JSON.parse(reader.result);
  
-			
 		}
 
 		reader.readAsText(file);

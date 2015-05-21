@@ -1,0 +1,14 @@
+{
+	"id":1,
+	"type":"firewall",
+	"instances": [
+		{
+			"instanceId":1,
+			"capacity":400
+		},
+		{
+			"instanceId":2,
+			"capacity":300
+		}
+	]
+}
