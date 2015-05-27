@@ -1,29 +1,29 @@
 [
 	{
-		"id":"1",
+		"id":0,
 		"nodes":[
-			{"id": "1", "type":"end-point", "cpu":10, "location":"1"},
-			{"id":"2", "type":"network-function", "capacity":"100"},
-			{"id":"3", "type":"end-point", "cpu":10, "location":"2"}
+			{"id":"0", "type":"end-point", "cpu":10, "location":"1"},
+			{"id":"1", "nfid":0, "type":"network-function", "cpu":100},
+			{"id":"2", "type":"end-point", "cpu":10, "location":"2"}
 		],
 		"links": [
-			{"source":"1", "target":"2", "bandwidth":"1000"},
-			{"source":"2", "target":"3", "bandwidth":"1000"},
-			{"source":"3", "target":"2", "bandwidth":"1000"}
+			{"source":"0", "target":"1", "bandwidth":{"s-t":1000,"t-s":1000}},
+			{"source":"1", "target":"2", "bandwidth":{"s-t":1000,"t-s":1000}},
+			{"source":"2", "target":"0", "bandwidth":{"s-t":1000,"t-s":1000}}
 		],
 		"delay":"20"
 	},
 	{
-		"id":"2",
+		"id":1,
 		"nodes":[
-			{"id": "1", "type":"end-point", "cpu":10, "capacity":"0", "location":"1"},
-			{"id":"2", "type":"network-function", "capacity":"100"},
+			{"id": "0", "type":"end-point", "cpu":10, "location":"1"},
+			{"id":"2", "nfid":0, "type":"network-function", "cpu":100},
 			{"id":"3", "type":"end-point", "cpu":10, "location":"2"}
 		],
 		"links": [
-			{"source":"1", "target":"2", "bandwidth":"1000"}, 
-			{"source":"2", "target":"3", "bandwidth":"1000"}, 
-			{"source":"3", "target":"2", "bandwidth":"1000"}
+			{"source":"1", "target":"2", "bandwidth":{"s-t":1000,"t-s":1000}}, 
+			{"source":"2", "target":"3", "bandwidth":{"s-t":1000,"t-s":1000}}, 
+			{"source":"3", "target":"2", "bandwidth":{"s-t":1000,"t-s":1000}}
 		],
 		"delay":"20"
 	}

@@ -1,14 +1,30 @@
-{
-	"id":1,
-	"type":"firewall",
-	"instances": [
-		{
-			"instanceId":1,
-			"capacity":400
-		},
-		{
-			"instanceId":2,
-			"capacity":300
-		}
-	]
-}
+[
+	{
+		"id":0,
+		"type":"firewall",
+		"instances": [
+			{
+				"instanceId":0,
+				"capacity":400
+			},
+			{
+				"instanceId":1,
+				"capacity":300
+			}
+		]
+	},
+	{
+		"id":1,
+		"type":"nf2",
+		"instances": [
+			{
+				"instanceId":0,
+				"capacity":400
+			},
+			{
+				"instanceId":1,
+				"capacity":300
+			}
+		]
+	}
+]
