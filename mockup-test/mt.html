@@ -28,8 +28,8 @@
                                 <a data-toggle="collapse" data-parent="#panels1" href="#collapse1">Requests</a>
                             </div>
                             <div id="collapse1" class="panel-collapse collapse in">
-                                <div class="panel-body">
-                                    <img src="/Users/lsilvestrin/Documents/bolsa/sfpc-viewer/menu-screenshot.png">
+                                <div class="panel-body" id="filtersMenu">
+                                    
                                 </div>
                             </div>
                         </div>
@@ -299,13 +299,13 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title">Load SFC Request File</h4>
+                        <h4 class="modal-title">Load Network Functions File</h4>
                     </div>
                     <div class="modal-body">
                         <form role="form">
                             <div class="form-group">
                                 <label class="control-label" for="exampleInputFile">File input</label>
-                                <input type="file" id="exampleInputFile">
+                                <input type="file" id="nf-file-input">
                             </div>
                         </form>
                     </div>
@@ -465,9 +465,7 @@
             </div>
         </div>
         <div>
-            <label>.dat</label><input type='file' value='/Users/lsilvestrin/Downloads/19.dat' id='fileInputDat'>
-            <label>.out</label><input type='file' value='/Users/lsilvestrin/Downloads/19.dat' id='fileInputOut'>
-            
+            <label>Output</label><input type='file' id='output-file-input'>            
         </div>
         <!-- /.container -->
         <!-- Bootstrap core JavaScript

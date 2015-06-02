@@ -28,7 +28,7 @@ function generateFilters() {
 		d.visible = !d.visible;
 	}
 	var buttons = [];
-	virtualNetworks.forEach(function(d, i) {
+	requests.forEach(function(d, i) {
 		buttons.push({visible:true, type:"virtual", id:i});
 	});
 	var usedNF = [];
@@ -82,7 +82,7 @@ function generateFilters() {
 
 	function turnNWFunction(d, opacity) {
 		var id = d.id;
-		var nodes = nwFunctionNodes.filter(function(n){return n.nwFunction==id;});
+		var nodes = nwFunctionNodes.filter(function(n){return n.nfid==id;});
 		nodes.transition().style("opacity", opacity);
 	}
 }

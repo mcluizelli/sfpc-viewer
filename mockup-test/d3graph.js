@@ -106,7 +106,7 @@ var linkDistance = function(l, i) {
 }
 
 var nodeSymbols = d3.scale.ordinal()
-    .domain(["physical", "virtual", "nwFunction"])
+    .domain(["physical", "end-point", "network-function"])
     .range(["circle", "circle", "square"]);
 
 var nodeSymbol = function(d) {
@@ -114,9 +114,9 @@ var nodeSymbol = function(d) {
 }
 
 function generateColor(d, i){
-  var numColors = virtualNetworks.length + nwFunctions.length;
+  var numColors = requests.length + nwFunctions.length;
   if (numColors < 1) numColors = 1; // to avoid division by zero
-  var colorValue = (d.hasOwnProperty('net')) ? d.net : d.nwFunction + virtualNetworks.length;
+  var colorValue = (d.hasOwnProperty('net')) ? d.net : d.nfid + requests.length;
   if (colorValue > -1) {
     var hue = colorValue * (360 / numColors) % 360;
     return d3.hcl(hue, 50 , 52).toString();
