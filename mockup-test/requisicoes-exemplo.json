@@ -2,9 +2,9 @@
 	{
 		"id":0,
 		"nodes":[
-			{"id":"0", "type":"end-point", "cpu":10, "location":"1"},
+			{"id":"0", "type":"end-point", "cpu":10, "location":1},
 			{"id":"1", "nfid":0, "type":"network-function", "cpu":100},
-			{"id":"2", "type":"end-point", "cpu":10, "location":"2"}
+			{"id":"2", "type":"end-point", "cpu":10, "location":2}
 		],
 		"links": [
 			{"source":"0", "target":"1", "bandwidth":{"s-t":1000,"t-s":1000}},
@@ -16,9 +16,9 @@
 	{
 		"id":1,
 		"nodes":[
-			{"id": "0", "type":"end-point", "cpu":10, "location":"1"},
+			{"id": "0", "type":"end-point", "cpu":10, "location":1},
 			{"id":"2", "nfid":0, "type":"network-function", "cpu":100},
-			{"id":"3", "type":"end-point", "cpu":10, "location":"2"}
+			{"id":"3", "type":"end-point", "cpu":10, "location":2}
 		],
 		"links": [
 			{"source":"1", "target":"2", "bandwidth":{"s-t":1000,"t-s":1000}}, 
