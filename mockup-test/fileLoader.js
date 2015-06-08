@@ -149,7 +149,7 @@ nfnode-obj {
 					node["cpu"] = virtualNode.cpu;
 					node["type"] = n.type;
 					if (n.type == "network-function") {
-						var nf = nwFunctions[n.nfid].instances[n.id];
+						var nf = nwFunctions[n.nfid].instances[n.instance];
 						node["usedCpu"] = 0;
 						node.cpu = nf.capacity;
 						node["nfid"] = nf.nfid;
