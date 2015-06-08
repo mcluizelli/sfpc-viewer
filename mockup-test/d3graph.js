@@ -157,9 +157,9 @@ function start() {
       .append("image")
       .attr("xlink:href", function(d){
           if(d.type == "end-point")
-            return "PC.png";
+            return "icons/PC.png";
           else
-            return d.nfid+".png";})
+            return "icons/"+d.nfid+".png";})
       .attr("x", "-8px")
       .attr("y", "-8px")
       .attr("width", "16px")
