@@ -123,30 +123,6 @@ function generateColor(d, i){
   }
 }
 
-function updateGraph() {
-
-  var nodesContainer = document.getElementById("nodesContainer");
-  var linksContainer = document.getElementById("linksContainer");
-
-  nodes.splice(0); // remove all nodes' data
-  links.splice(0); // remove all links' data
-
-  var nodesDivs = nodesContainer.getElementsByTagName("DIV");
-  var linksDivs = linksContainer.getElementsByTagName("DIV");
-  for (var i = 0; i < nodesDivs.length; i++) {
-    var newNode = {id: i, name: i};
-    nodes.push(newNode);
-  }
-  for (var i = 0; i < linksDivs.length; i++) {
-    var linkInputs = linksDivs[i].getElementsByTagName("INPUT");
-    var source = nodes[linkInputs[0].value], target = nodes[linkInputs[1].value];
-    var newLink = {source: source, target: target};
-    links.push(newLink);
-  }
-
-  start();
-}
-
 function start() {
   // remove all nodes, links and hulls before inserting the new ones
   node = node.data([]);

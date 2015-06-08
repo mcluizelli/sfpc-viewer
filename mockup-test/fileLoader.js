@@ -144,7 +144,6 @@ nfnode-obj {
  					var node = {};
  					node["id"] = n.id;
  					node["host"] = n.location;
- 					node["net"] = vnet.id;
  					var virtualNode = requests[vnet.id].nodes[n.id];
 					node["cpu"] = virtualNode.cpu;
 					node["type"] = n.type;
@@ -152,9 +151,10 @@ nfnode-obj {
 						var nf = nwFunctions[n.nfid].instances[n.instance];
 						node["usedCpu"] = 0;
 						node.cpu = nf.capacity;
-						node["nfid"] = nf.nfid;
+						node["nfid"] = n.nfid;
 						allocatedFunctions.push(node);
-					}
+					} else
+ 						node["net"] = vnet.id; 
 					nodes.push(node);
 					hulls[node.host].push(node);
  				}
