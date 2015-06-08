@@ -32,7 +32,7 @@ var nodeTip = d3.tip()
     .html(nodeTipText);
 
 var zoom = d3.behavior.zoom()
-    .scaleExtent([0.8, 5]) // escala do zoom
+    .scaleExtent([0.8, 5]) // zoom scale
     .on("zoom", zoomed);
 
 var svg = d3.select("#graph").append("svg")
@@ -153,11 +153,13 @@ function start() {
   node.enter().append("g")
       .attr("class", nodeClass)
       .attr("transform", "translate(" + width/2 + "," + height/2 + ")");
+  var f = node.selectAll(".nwFunction");
   node.append("path")
       .attr("d", d3.svg.symbol()
           .type(nodeSymbol)
           .size(200))
       .style("fill", generateColor);
+
   node.append("text")
       .attr("x", 12)
       .attr("dy", ".35em")
