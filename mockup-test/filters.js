@@ -1,6 +1,6 @@
 // create the menu area
 var filterMenu = d3.select("#filtersMenu").append("svg")
-		.attr("width", "120px")
+		.attr("width", "160px")
     	.attr("height", 0);
 var filterButtons = filterMenu.selectAll("g");
 
@@ -29,17 +29,17 @@ function generateFilters() {
 	}
 	var buttons = [];
 	requests.forEach(function(d, i) {
-		buttons.push({visible:true, type:"virtual", id:i});
+		buttons.push({visible:true, type:"virtual", id:i, label:d.name});
 	});
 	var usedNF = [];
 	allocatedFunctions.forEach(function(d) {
-		if(usedNF.indexOf(d[1]) == -1) {
-			usedNF.push(d[1]);
+		if(usedNF.indexOf(d.nfid) == -1) {
+			usedNF.push(d.nfid);
 		}
 	});
-	buttons.push({visible:true, type:"physical", id:-1});
+	buttons.push({visible:true, type:"physical", id:-1, label:"Infrastructure"});
 	usedNF.forEach(function(d) {
-		buttons.push({visible:true, type:"nwFunction", id:d});
+		buttons.push({visible:true, type:"nwFunction", id:d, label:nwFunctions[d].type});
 	});
 
 	filterMenu.attr("height", 20*buttons.length + 40);
@@ -54,24 +54,25 @@ function generateFilters() {
 	filterButtons.append("text")
 	  .attr("x", 12)
 	  .attr("dy", ".35em")
-	  .text(buttonText);
+	  .text(function(d){return d.label});
 	filterButtons.attr("transform", function(d, i) { return "translate(" + 30 + "," + (10 + 20*i) + ")"; })
 		.on("click", turnVisibility);
 
 	filterButtons.exit().remove();
 	
+	/*
 	function buttonText(d) {
 		var text;
 		if(d.type == "nwFunction") {
 			text = "Function " + d.id;
 		} else if (d.type == "virtual"){
-			text = "Net " + d.id;
+			text = d.name;
 		} else {
 			text = "Infrastructure";
 		}
 		return text;
 	}
-
+	*/
 	function turnVirtualNet(d, opacity) {
 		var id = d.id;
 		var net = glinks.selectAll(".link.net"+id);

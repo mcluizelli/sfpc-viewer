@@ -73,58 +73,6 @@ window.onload = function() {
 		reader.readAsText(file);
 	});
 
-/*
-vlink-obj {
-	capacity: [
-		"s-t" - 100
-		"t-s" - 40
-	],
-	delay: 3,
-	net: 1
-	source: obj
-	target obj
-	vsource: 1
-	vsource: 2
-}
-
-link-bj {
-	capacity: [
-		"s-t" - 100
-		"t-s" - 40
-	],
-	delay: 3,
-	net: -1
-	source: obj
-	target obj
-}
-
-vnode-obj {
-	id
-	cpu
-	nfUsed
-	net
-	host
-	type
-}
-node-obj {
-	id
-	cpu
-	usedCpu
-	net
-	host
-	type
-}
-
-nfnode-obj {
-	id
-	cpu
-	usedCpu
-	nf
-	host
-	type
-}
-*/
-
 	outputFileInput.addEventListener('change', function(e) {
 		var file = outputFileInput.files[0];
 
@@ -145,16 +93,40 @@ nfnode-obj {
  					node["id"] = n.id;
  					node["host"] = n.location;
  					var virtualNode = requests[vnet.id].nodes[n.id];
-					node["cpu"] = virtualNode.cpu;
 					node["type"] = n.type;
 					if (n.type == "network-function") {
 						var nf = nwFunctions[n.nfid].instances[n.instance];
-						node["usedCpu"] = 0;
-						node.cpu = nf.capacity;
+						node["usedCpu"] = virtualNode.cpu;
+						node["usedMem"] = virtualNode.memory;
+						node["cpu"] = nf.capacity;
+						node["memory"] = nf.memory;
 						node["nfid"] = n.nfid;
-						allocatedFunctions.push(node);
-					} else
+						node["instance"] = n.instance;
+						node["occurrences"] = 1;
+						// tests if there are other instances of same nf in the same node
+						var repeatedInstance = allocatedFunctions.filter(function(d){
+							return d.host == node.host
+								&& d.instance == node.instance
+								&& d.nfid == node.nfid;
+						});
+						if (repeatedInstance.length > 0) {
+							var ri = repeatedInstance[0];
+							ri.occurrences++;
+							ri.cpu += node.cpu;
+							ri.memory += node.memory;
+							ri.usedCpu += node.usedCpu;
+							ri.usedMem += node.usedMem;
+						} else {
+							allocatedFunctions.push(node);
+						}
+					} else {
  						node["net"] = vnet.id; 
+						node["cpu"] = virtualNode.cpu;
+						node["memory"] = virtualNode.memory;
+					}
+					var host = physicalNodes[node.host];
+					host.usedCpu += node.cpu;
+					host.usedMem += node.memory;
 					nodes.push(node);
 					hulls[node.host].push(node);
  				}
@@ -204,7 +176,6 @@ nfnode-obj {
  						}
  					}
  				}
-				
  			}
 		}
 
