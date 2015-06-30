@@ -170,17 +170,25 @@ function start() {
           .type(nodeSymbol)
           .size(200))
       .style("fill", generateColor);
-
-  node.append("text")
+  // selects non-empty physical nodes
+  node.filter(function(d){
+    var pnc = hulls.map(function(d){if(d.length>1){return d[0]}});
+    if(pnc.indexOf(d)>-1)
+      return true;
+    else
+      return false;
+  }).append("text")
       .attr("x", 12)
       .attr("dy", ".35em")
-      .text(function(d) { return d.id; });
+      .text(function(d) { 
+        return d.id; 
+      });
   node.on("mouseover", nodeTip.show)
       .on("mousedown", nodeTip.hide)
       .on("mouseout", nodeTip.hide);
   node.exit().remove();
 
-  var virtualNodes = gnodes.selectAll("g.node.virtual");
+  var virtualNodes = node.filter(function(d){return d.host!=-1});
   virtualNodes.call(dragNode);
 
   // create the clusters of nodes
@@ -234,7 +242,7 @@ function dragstarted(d) {
   parentHull.splice(id,1);
   d.host = -2;
   hull.attr("d", drawHull);
-  console.log(d3.event.sourceEvent.target);
+  //console.log(d3.event.sourceEvent.target);
   d3.event.sourceEvent.stopPropagation();
   force.stop();
   d3.select(this).classed("dragging", true);
