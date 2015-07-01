@@ -1,11 +1,16 @@
+// global settings
 var width = 800,
-    height = 500;
+    height = 500,
+    gravity = 0.2,
+    vNodesAttraction = 3;
 
 // function to generate different colors for different given numbers
 var color = d3.scale.category20();
 
 function zoomed() {
-  graphContainer.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+  graphContainer.attr("transform", 
+                "translate(" + d3.event.translate + ")" +
+                "scale(" + d3.event.scale + ")");
 }
 
 var dragNode = d3.behavior.drag()
@@ -18,7 +23,7 @@ var dragNode = d3.behavior.drag()
 var force = d3.layout.force()
     .nodes(nodes)
     .links(links)
-    .gravity(0.2)
+    .gravity(gravity)
     .charge(-600)
   //  .linkDistance(100)
     .friction(0.5)
@@ -92,17 +97,13 @@ var nodeClass = function(d) {
 
 // set a different class for links of each network
 var linkClass = function(d) {
-
   return "link net" + d.net;
-
 }
 
 var linkDistance = function(l, i) {
-
   var n1 = l.source, n2 = l.target;
   var hull1 = hulls[n1.id], hull2 = hulls[n2.id];
   return 30 + Math.max(20 * Math.min(hull1.length, hull2.length), 100);
-
 }
 
 var nodeSymbols = d3.scale.ordinal()
@@ -196,14 +197,15 @@ function start() {
   hull.enter().append("path")
       .attr("class", "hull");
   hull.exit().remove();
-  force = force.linkDistance(linkDistance);
+  force = force.linkDistance(linkDistance)
+      .gravity(gravity);
   force.start();
   generateFilters();
 }
 
 function tick(e) {
 
-  var k = 3 * e.alpha; // constant for virtual nodes attraction
+  var k = vNodesAttraction * e.alpha; // constant for virtual nodes attraction
   // this will make virtual nodes move close to the host node
   nodes.forEach(function(o, i) {
     if (o.host > -1) {
@@ -212,7 +214,9 @@ function tick(e) {
     }
   });
 
-  node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+  node.attr("transform", function(d) { 
+    return "translate(" + d.x + "," + d.y + ")"; 
+  });
 
   hull.attr("d", drawHull);
   link.attr("d", function (d) {
