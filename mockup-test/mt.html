@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" bgcolor="#F2F2F2">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -20,15 +20,15 @@
     </head>
     <body>
         <div class="container">
-            <div class="row">
+            <div class="row" style="background:#f2f2f2">
                 <div class="left-menu  col-sm-2 col-sm-offset-0 col-lg-2 col-lg-offset-0" id="left-col">
                     <div class="panel-group starter-template" id="panels1">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <a data-toggle="collapse" data-parent="#panels1" href="#collapse1">Requests</a>
+                                <a data-toggle="collapse" data-parent="#panels1" href="#collapse1">SFCs</a>
                             </div>
                             <div id="collapse1" class="panel-collapse collapse in">
-                                <div class="panel-body" id="filtersMenu">
+                                <div class="panel-body" id="nwMenu">
                                     
                                 </div>
                             </div>
@@ -38,8 +38,8 @@
                                 <a data-toggle="collapse" data-parent="#panels1" href="#collapse2">Network Functions</a>
                             </div>
                             <div id="collapse2" class="panel-collapse collapse">
-                                <div class="panel-body">
-                                    <img id="test-graph" src="/Users/lsilvestrin/Documents/bolsa/sfpc-viewer/menu-screenshot.png">
+                                <div class="panel-body" id="nfMenu">
+                                    
                                 </div>
                             </div>
                         </div>
@@ -191,7 +191,7 @@
                             </div>
                             <div class="checkbox">
                                 <label class="control-label">
-                                    <input type="checkbox">                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 Check me out                        
+                                    <input type="checkbox">                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     Check me out                        
                                 </label>
                             </div>
                         </form>
@@ -271,9 +271,46 @@
                     <div class="modal-body">
                         <table class="table table-hover" id="sfc-req-table">
                         <tr class="active">
-                            <td><b>Request</b></td>
-                            <td><b>Options</b></td>
+                            <td><b><center>ID</center></b></td>
+                            <td width="50%"><b><center>Description</center><b></td>
+                            <td><b><center>Num Net. Funcions</center></b></td>
+                            <td><b><center>Author</center></b></td>
+                            <td><b><center>Date</center></b></td>
                         </tr>
+
+                        <tr>
+                            <td><center>1</center></td>
+                            <td align="left">VPN portal SFC</td>
+                            <td><center>2</center></td>
+                            <td><center>John Doe</center></td>
+                            <td><center>01/10/2015 5:13pm</center></td>
+                        </tr>
+
+                        <tr>
+                            <td><center>2</center></td>
+                            <td align="left">e-commerce WebApp SFC</td>
+                            <td><center>2</center></td>
+                            <td><center>John Doe</center></td>
+                            <td><center>01/11/2015 8:21am</center></td>
+                        </tr>
+
+                        <tr>
+                            <td><center>3</center></td>
+                            <td align="left">VoIP SFC</td>
+                            <td><center>3</center></td>
+                            <td><center>John Doe</center></td>
+                            <td><center>01/11/2015 13:11pm</center></td>
+                        </tr>
+
+                        <tr>
+                            <td><center>4</center></td>
+                            <td align="left">Web Conference</td>
+                            <td><center>5</center></td>
+                            <td><center>John Doe</center></td>
+                            <td><center>01/12/2015 10:32am</center></td>
+                        </tr>
+
+                        
 
                         <!--
                         <tr class="active">
@@ -288,8 +325,9 @@
                       </table>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Edit</button>
+                        
+                        <button type="button" class="btn btn-danger">Close</button>
                     </div>
                 </div>
             </div>
@@ -346,8 +384,9 @@
                     </div>
 
                     <div class="modal-footer">                        
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
+                        <button type="button" class="btn btn-warning" data-dismiss="modal">Edit</button>
+                        <button type="button" class="btn btn-primary">Save</button>
+                        <button type="button" class="btn btn-danger">Close</button>
                     </div>
                 </div>
             </div>
@@ -359,25 +398,59 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title">SFC Requests</h4>
+                        <h4 class="modal-title">Network Functions</h4>
                     </div>
                     <div class="modal-body">
                         <table class="table table-hover" id="nf-table">
                             <tr class="active">
-                                <td><b>ID</b></td>
-                                <td><b>Network Function</b></td>
-                                <td><b>CPU</b></td>
-                                <td><b>Memory</b></td>
-                                <td><b>Number of Instances</b></td>
+                                <td width="10%"> <b><center></center></b></td>
+                                <td width="20%"><b><center>Network Function</center></b></td>
+                                <td width="20%"><b><center>CPU</center></b></td>
+                                <td width="20%"><b><center>Memory</center></b></td>
+                                <td width="20%"><b><center>Instances</center></b></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td><center><img src="icons/teste/0.png" width="60%"></center></td>
+                                <td><center>Firewall</center></td>
+                                <td><center>5 vCPU</center></td>
+                                <td><center>2048 MB</center></td>
+                                <td><center>9</center></td>
+                                <td></td>
+                            </tr>
+
+                            <tr>
+                                <td><center><img src="icons/teste/1.png" width="60%"></center></td>
+                                <td><center>Load Balancer</center></td>
+                                <td><center>5 vCPU</center></td>
+                                <td><center>2048 MB</center></td>
+                                <td><center>9</center></td>
+                                <td></td>
+                            </tr>
+
+                            <tr>
+                                <td><center><img src="icons/teste/0.png" width="60%"></center></td>
+                                <td><center>VPN</center></td>
+                                <td><center>5 vCPU</center></td>
+                                <td><center>2048 MB</center></td>
+                                <td><center>10</center></td>
+                                <td></td>
+                            </tr>
+
+                            <tr>
+                                <td><center><img src="icons/teste/2.png" width="60%"></center></td>
+                                <td><center>Proxy</center></td>
+                                <td><center>5 vCPU</center></td>
+                                <td><center>2048 MB</center></td>
+                                <td><center>10</center></td>
                                 <td></td>
                             </tr>
 
                         </table>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" id="btClear">Clear</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Edit</button>
+                        <button type="button" class="btn btn-danger">Close</button>
                     </div>
                 </div>
             </div>
@@ -459,12 +532,16 @@
                         </li>
                         
                     </ul>
-                    <button type="submit" class="btn navbar-btn btn-success" onClick="start()">Run</button>
+                    <button type="submit" class="btn navbar-btn btn-success" onClick="start()">Optimize</button>
+
+                    <button type="submit" class="btn navbar-btn btn-success" onClick="start()">Deploy</button>
+
+                    
                 </div>
                 <!--/.nav-collapse -->
             </div>
         </div>
-        <div>
+        <div style="background:#f2f2f2">
             <label>Output</label><input type='file' id='output-file-input'>            
         </div>
         <!-- /.container -->
