@@ -1,9 +1,14 @@
 <script>
     $("#vNodeAttraction").val(vNodesAttraction)
-    $("#vNodeAttraction").change(function() {
-        vNodesAttraction = parseFloat($(this).val());
-        force.start();
-    })
+        .change(function() {
+            vNodesAttraction = parseFloat($(this).val());
+            force.start();
+        })
+    $("#gravity").val(gravity)
+        .change(function() {
+            gravity = parseFloat($(this).val());
+            force.start();
+        });
 </script>
 <div class="modal-dialog">
     <div class="modal-content">
@@ -16,6 +21,8 @@
                 <div class="form-group">
                     <label class="control-label" for="vNodeAttraction">Virtual node attraction</label>
                     <input type="range" min="0" max="3" step="0.1" class="form-control" id="vNodeAttraction" placeholder="">
+                    <label class="control-label" for="Gravity">Gravity</label>
+                    <input type="range" min="0" max="1" step="0.1" class="form-control" id="gravity" placeholder="">
                 </div>
                 <div class="checkbox">
                     <label class="control-label">
