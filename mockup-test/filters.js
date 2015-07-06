@@ -89,7 +89,7 @@ function generateFilters() {
 	nfButtons.exit().remove();
 
 
-	var turnVisibility = function(d, i) {
+	function turnVisibility(d, i) {
 		var button = d3.select(this);
 		var opacity;
 		opacity = (d.visible) ? .1 : 1;
