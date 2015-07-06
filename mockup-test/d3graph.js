@@ -2,7 +2,7 @@
 var width = 800,
     height = 500,
     gravity = 0.2,
-    vNodesAttraction = 3;
+    vNodesAttraction = 2;
 
 // function to generate different colors for different given numbers
 var color = d3.scale.category20();
