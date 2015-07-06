@@ -1,29 +1,33 @@
 [
 	{
 		"id":0,
-		"type":"firewall",
+		"type":"Firewall",
 		"instances": [
 			{
 				"instanceId":0,
-				"capacity":400
+				"capacity":400,
+				"memory":512
 			},
 			{
 				"instanceId":1,
-				"capacity":300
+				"capacity":300,
+				"memory":512
 			}
 		]
 	},
 	{
 		"id":1,
-		"type":"nf2",
+		"type":"Load Balancer",
 		"instances": [
 			{
 				"instanceId":0,
-				"capacity":400
+				"capacity":400,
+				"memory":512
 			},
 			{
 				"instanceId":1,
-				"capacity":300
+				"capacity":300,
+				"memory":512
 			}
 		]
 	}
