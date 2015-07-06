@@ -27,21 +27,6 @@ function generateFilters() {
 	nfButtons = nfButtons.data([]);
 	nfButtons.exit().remove();
 
-	var turnVisibility = function(d, i) {
-		var button = d3.select(this);
-		var opacity;
-		opacity = (d.visible) ? .1 : 1;
-
-		button.select("path").transition().style("opacity", (opacity + .3));
-		if (d.type == "virtual") {
-			turnVirtualNet(d, opacity);
-		} else if (d.type == "nwFunction") {
-			turnNWFunction(d, opacity);
-		} else {
-			physicalLinks.transition().style("opacity", opacity);
-		}
-		d.visible = !d.visible;
-	}
 	var netBut = []; // buttons data for the networks
 	var nfBut = []; // buttons data for the network functions
 	requests.forEach(function(d, i) {
@@ -61,28 +46,63 @@ function generateFilters() {
 	nwMenu.attr("height", 20*netBut.length);
 	nfMenu.attr("height", 20*nfBut.length);
 	
-	appendButtons(nwButtons, netBut);
-	appendButtons(nfButtons, nfBut);
+	// generate buttons for networks
+	nwButtons = nwButtons.data([]);
+	nwButtons.exit().remove();
+	nwButtons = nwButtons.data(netBut);
+	nwButtons.enter().append("g")
+		.attr("class", "node");
+	nwButtons.append("path")
+	.attr("d", d3.svg.symbol()
+    	.type(nodeSymbol)
+      	.size(200));
+	nwButtons.append("text")
+	  .attr("x", 12)
+	  .attr("dy", ".35em")
+	  .text(function(d){return d.label});
+	nwButtons.attr("transform", function(d, i) { 
+		return "translate(" + 30 + "," + (10 + 20*i) + ")"; 
+	})
+		.on("click", turnVisibility);
 
-	// generate the buttons given a selection and the data
-	function appendButtons(butSelect, data) {
-		butSelect = butSelect.data(data);
-		butSelect.enter().append("g")
-			.attr("class", "node");
-		butSelect.append("path")
-		.attr("d", d3.svg.symbol()
-        	.type(nodeSymbol)
-          	.size(200));
-		butSelect.append("text")
-		  .attr("x", 12)
-		  .attr("dy", ".35em")
-		  .text(function(d){return d.label});
-		butSelect.attr("transform", function(d, i) { 
-			return "translate(" + 30 + "," + (10 + 20*i) + ")"; 
-		})
-			.on("click", turnVisibility);
+	nwButtons.exit().remove();
 
-		butSelect.exit().remove();
+	// generate buttons for nf's
+	nfButtons = nfButtons.data([]);
+	nfButtons.exit().remove();
+	nfButtons = nfButtons.data(nfBut);
+	nfButtons.enter().append("g")
+		.attr("class", "node");
+	nfButtons.append("path")
+	.attr("d", d3.svg.symbol()
+    	.type(nodeSymbol)
+      	.size(200));
+	nfButtons.append("text")
+	  .attr("x", 12)
+	  .attr("dy", ".35em")
+	  .text(function(d){return d.label});
+	nfButtons.attr("transform", function(d, i) { 
+		return "translate(" + 30 + "," + (10 + 20*i) + ")"; 
+	})
+		.on("click", turnVisibility);
+
+	nfButtons.exit().remove();
+
+
+	var turnVisibility = function(d, i) {
+		var button = d3.select(this);
+		var opacity;
+		opacity = (d.visible) ? .1 : 1;
+
+		button.select("path").transition().style("opacity", (opacity + .3));
+		if (d.type == "virtual") {
+			turnVirtualNet(d, opacity);
+		} else if (d.type == "nwFunction") {
+			turnNWFunction(d, opacity);
+		} else {
+			physicalLinks.transition().style("opacity", opacity);
+		}
+		d.visible = !d.visible;
 	}
 
 	function turnVirtualNet(d, opacity) {
