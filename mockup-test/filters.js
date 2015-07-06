@@ -58,8 +58,8 @@ function generateFilters() {
 		nfBut.push(new Button(d, "nwFunction", nwFunctions[d].type));
 	});
 
-	nwMenu.attr("height", 20*netBut.length + 40);
-	nfMenu.attr("height", 20*nfBut.length + 40);
+	nwMenu.attr("height", 20*netBut.length);
+	nfMenu.attr("height", 20*nfBut.length);
 	
 	appendButtons(nwButtons, netBut);
 	appendButtons(nfButtons, nfBut);
