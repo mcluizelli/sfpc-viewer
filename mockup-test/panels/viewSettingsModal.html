@@ -1,20 +1,34 @@
 <script>
     $("#vNodeAttraction").val(vNodesAttraction)
-        .change(function() {
+        .on('input', function() {
             vNodesAttraction = parseFloat($(this).val());
             force.start();
+            $("#vNodeAttractionVal").text($(this).val());
         })
     $("#gravity").val(force.gravity)
-        .change(function() {
+        .on('input', function() {
             force.gravity(parseFloat($(this).val()))
                 .start();
+            $("#gravityVal").text($(this).val());
         });
     $("#friction").val(force.friction)
-        .change(function() {
+        .on('input', function() {
             force.friction(parseFloat($(this).val()))
                 .start();
-        })
-
+            $("#frictionVal").text($(this).val());
+        });
+    $("#charge").val(force.charge)
+        .on('input', function() {
+            force.charge(parseFloat($(this).val()))
+                .start();
+            $("#chargeVal").text($(this).val());
+        });
+   $("#chargeDistance").val(force.chargeDistance)
+        .on('input', function() {
+            force.chargeDistance(parseFloat($(this).val()))
+                .start();
+            $("#chargeDistanceVal").text($(this).val());
+        });
 </script>
 <div class="modal-dialog">
     <div class="modal-content">
@@ -25,12 +39,16 @@
         <div class="modal-body">
             <form role="form">
                 <div class="form-group">
-                    <label class="control-label" for="vNodeAttraction">Virtual node attraction</label>
+                    <label class="control-label" for="vNodeAttraction">Virtual node attraction: <span id="vNodeAttractionVal"></span></label>
                     <input type="range" min="0" max="3" step="0.1" class="form-control" id="vNodeAttraction" placeholder="">
-                    <label class="control-label" for="gravity">Gravity</label>
+                    <label class="control-label" for="gravity">Gravity: <span id="gravityVal"></span></label>
                     <input type="range" min="0" max="1" step="0.1" class="form-control" id="gravity" placeholder="">
-                    <label class="control-label" for="friction">Friction</label>
+                    <label class="control-label" for="friction">Friction: <span id="frictionVal"></span></label>
                     <input type="range" min="0" max="1" step="0.1" class="form-control" id="friction" placeholder="">
+                    <label class="control-label" for="charge">Charge: <span id="chargeVal"></span></label>
+                    <input type="range" min="-1000" max="500" step="100" class="form-control" id="charge" placeholder="">
+                    <label class="control-label" for="chargeDistance">Charge distance: <span id="chargeDistanceVal"></span></label>
+                    <input type="range" min="0" max="500" step="1" default="500" class="form-control" id="chargeDistance" placeholder="">
                 </div>
                 <div class="checkbox">
                     <label class="control-label">
