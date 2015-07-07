@@ -1,9 +1,9 @@
 // create the menu area
 var nwMenu = d3.select("#nwMenu").append("svg")
-		.attr("width", "160px")
+		.attr("width", "120px")
     	.attr("height", 0);
 var	nfMenu = d3.select("#nfMenu").append("svg")
-		.attr("width", "160px")
+		.attr("width", "120px")
     	.attr("height", 0);
 
 // global buttons selections
@@ -61,7 +61,7 @@ function generateFilters() {
 	  .attr("dy", ".35em")
 	  .text(function(d){return d.label});
 	nwButtons.attr("transform", function(d, i) { 
-		return "translate(" + 30 + "," + (10 + 20*i) + ")"; 
+		return "translate(" + 8 + "," + (10 + 20*i) + ")"; 
 	})
 		.on("click", turnVisibility);
 
