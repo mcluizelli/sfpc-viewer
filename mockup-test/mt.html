@@ -12,7 +12,6 @@
         <!-- Custom styles for this template -->
         <link href="css/starter-template.css" rel="stylesheet">
         <link href="css/style.css" rel="stylesheet">
-        <link href="css/bootstrap-slider.min.css" rel="stylesheet">
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -55,10 +54,10 @@
         </div>
         
         <div class="modal fade pg-show-modal" id="set-view" tabindex="-1" role="dialog" aria-hidden="true">
-        <!--
-        -  CONTENT OF THIS MODAL IS IN
-        -  panels/viewSettingsModal.html
-        -->
+            <!--
+            -  CONTENT OF THIS MODAL IS IN
+            -  panels/viewSettingsModal.html
+            -->
         </div>
 
         <!--  - - - - - - - - - - - - - - - - - - -->
@@ -525,11 +524,28 @@
         <script src="fileLoader.js"></script>
         <script src="d3graph.js"></script>
         <script src="filters.js"></script>
-        <script src="bootstrap-slider.min.js"></script>
+        <script src="jquery.hotkeys.js"></script>
 
         <script>
             $(function() {
                 $("#set-view").load("panels/viewSettingsModal.html");
+            });
+
+            $(document).on('keypress', null, 'ctrl+r', function (evt){
+                jQuery("#sfc-req-file-input").trigger("click");
+                return false; 
+            });
+            $(document).on('keypress', null, 'ctrl+i', function (evt){
+                jQuery("#pt-file-input").trigger("click");
+                return false; 
+            });
+            $(document).on('keypress', null, 'ctrl+o', function (evt){
+                jQuery("#output-file-input").trigger("click");
+                return false; 
+            });
+            $(document).on('keypress', null, 'ctrl+n', function (evt){
+                jQuery("#nf-file-input").trigger("click");
+                return false; 
             });
         </script>
     </body>
