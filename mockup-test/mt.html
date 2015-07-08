@@ -519,18 +519,25 @@
         <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
         <script src="assets/js/ie10-viewport-bug-workaround.js"></script>
         <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-        <script src="tooltip.js"></script>
-        <script src="D3-tip.js"></script>
-        <script src="fileLoader.js"></script>
-        <script src="d3graph.js"></script>
-        <script src="filters.js"></script>
-        <script src="jquery.hotkeys.js"></script>
+        <script src="js/tooltip.js"></script>
+        <script src="js/imports/D3-tip.js"></script>
+        <script src="js/fileLoader.js"></script>
+        <script src="js/d3graph.js"></script>
+        <script src="js/filters.js"></script>
+        <script src="js/imports/jquery.hotkeys.js"></script>
 
         <script>
+            // loading modals from external files
             $(function() {
                 $("#set-view").load("panels/viewSettingsModal.html");
             });
 
+            // enables the draggable behaviour
+            $("#set-view").draggable({
+                handle: ".modal-header"
+            }); 
+
+            /** SHORTCUTS **/
             $(document).on('keypress', null, 'ctrl+r', function (evt){
                 jQuery("#sfc-req-file-input").trigger("click");
                 return false; 
