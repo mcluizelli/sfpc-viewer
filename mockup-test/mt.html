@@ -491,7 +491,7 @@
                                     <a href="#" data-toggle="modal" data-target="#set-exec">Execution parameters</a>
                                 </li>
                                 <li>
-                                    <a href="#" data-toggle="modal" data-target="#set-view">View parameters</a>
+                                    <a href="#" data-toggle="modal" data-target="#set-view" id="view-param-link">View parameters</a>
                                 </li>
                             </ul>
                         </li>
@@ -545,6 +545,10 @@
             });
             $(document).on('keypress', null, 'ctrl+n', function (evt){
                 jQuery("#nf-file-input").trigger("click");
+                return false; 
+            });
+            $(document).on('keypress', null, 'ctrl+s', function (evt){
+                jQuery("#view-param-link").trigger("click");
                 return false; 
             });
         </script>
