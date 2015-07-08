@@ -1,7 +1,6 @@
 // global settings
 var width = 800,
     height = 500,
-    gravity = 0.2,
     vNodesAttraction = 2;
 
 // function to generate different colors for different given numbers
@@ -23,10 +22,9 @@ var dragNode = d3.behavior.drag()
 var force = d3.layout.force()
     .nodes(nodes)
     .links(links)
-    .gravity(gravity)
     .charge(-600)
+    .chargeDistance(500)
   //  .linkDistance(100)
-    .friction(0.5)
     .size([width, height])
     .on("tick", tick);
 
@@ -198,7 +196,6 @@ function start() {
       .attr("class", "hull");
   hull.exit().remove();
   force = force.linkDistance(linkDistance)
-      .gravity(gravity);
   force.start();
   generateFilters();
 }
