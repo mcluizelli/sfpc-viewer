@@ -152,27 +152,15 @@ function start() {
   node.enter().append("g")
       .attr("class", nodeClass)
       .attr("transform", "translate(" + width/2 + "," + height/2 + ")");
-  node.filter(function(d){return d.type != "physical"})
-      .append("image")
-      .attr("xlink:href", function(d){
-          if(d.type == "end-point")
-            return "icons/PC.png";
-          else
-            return "icons/"+d.nfid+".png";})
-      .attr("x", "-8px")
-      .attr("y", "-8px")
-      .attr("width", "16px")
-      .attr("height", "16px");
-  node.filter(function(d){return d.type == "physical"})
-      .append("path")
-      .attr("d", d3.svg.symbol()
-          .type(nodeSymbol)
-          .size(200))
-      .style("fill", generateColor);
+  var ep = node.filter(function(d){return d.type == "end-point"});
+  appendImage(ep, "icons/PC.png");
+  var nf = node.filter(function(d){return d.type == "network-function"});
+  appendImage(nf, function(d){return "icons/"+d.nfid+".png"});
+  var pn = node.filter(function(d){return d.type == "physical"})
+  appendImage(pn, "icons/teste/router.png");
   // append text for physical nodes that host virtual nodes
   node.filter(function(d){
-    var pnc = hulls.map(function(d){if(d.length>1){return d[0]}});
-    if(pnc.indexOf(d)>-1)
+    if(hulls[d.id].length > 1 && d.type == "physical")
       return true;
     else
       return false;
@@ -199,14 +187,9 @@ function start() {
   force.start();
   generateFilters();
 
-  function appendImage(nodeType, image) {
-    node.filter(function(d){return d.type != "physical"})
-      .append("image")
-      .attr("xlink:href", function(d){
-          if(d.type == "end-point")
-            return "icons/PC.png";
-          else
-            return "icons/"+d.nfid+".png";})
+  function appendImage(node, image) {
+    node.append("image")
+      .attr("xlink:href", image)
       .attr("x", "-8px")
       .attr("y", "-8px")
       .attr("width", "16px")

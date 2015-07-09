@@ -28,12 +28,17 @@
             $("#chargeVal").text($(this).val());
         });
     $("#chargeDistanceVal").text(force.chargeDistance());
-   $("#chargeDistance").val(force.chargeDistance())
+    $("#chargeDistance").val(force.chargeDistance())
         .on('input', function() {
             force.chargeDistance(parseFloat($(this).val()))
                 .start();
             $("#chargeDistanceVal").text($(this).val());
         });
+
+
+    $("#switches-img").on('change', function(){
+        $(".node.infrastructure").attr("href", $(this).val());
+    });
 </script>
 <div class="modal-dialog">
     <div class="modal-content">
@@ -47,24 +52,17 @@
                     <label class="control-label" for="vNodeAttraction">Virtual node attraction: <span id="vNodeAttractionVal"></span></label>
                     <input type="range" min="0" max="3" step="0.1" class="form-control" id="vNodeAttraction" default="2">
                     <label class="control-label" for="gravity">Gravity: <span id="gravityVal"></span></label>
-                    <input type="range" min="0" max="1" step="0.1" class="form-control" id="gravity" default="0.1">
+                    <input type="range" min="0" max="1" step="0.01" class="form-control" id="gravity" default="0.1">
                     <label class="control-label" for="friction">Friction: <span id="frictionVal"></span></label>
                     <input type="range" min="0" max="1" step="0.1" class="form-control" id="friction" placeholder="">
                     <label class="control-label" for="charge">Charge: <span id="chargeVal">-</span></label>
                     <input type="range" min="-1000" max="500" step="1" class="form-control" id="charge" placeholder="">
                     <label class="control-label" for="chargeDistance">Charge distance: <span id="chargeDistanceVal"></span></label>
                     <input type="range" min="0" max="2000" step="1" default="500" class="form-control" id="chargeDistance" placeholder="">
-                </div>
-                <div class="checkbox">
-                    <label class="control-label">
-                        <input type="radio" name="group" value="option1" checked>           Option one        
-                    </label>
-                    <label class="control-label">
-                        <input type="radio" name="group" value="option1" checked>           Option one        
-                    </label>
-                    <label class="control-label">
-                        <input type="checkbox">Check me out                        
-                    </label>
+                    <label class="control-label">Switches</label>
+                    <input type="file" id="switches-img">
+                    <label class="control-label">End-points</label>
+                    <input type="file" id="end-points-img">
                 </div>
             </form>
         </div>
