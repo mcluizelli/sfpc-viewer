@@ -33,13 +33,8 @@ function generateFilters() {
 		netBut.push(new Button(i, "virtual", d.name));
 	});
 	netBut.push(new Button(-1, "physical", "Infrastructure"));
-	var usedNF = [];
-	allocatedFunctions.forEach(function(d) {
-		if(usedNF.indexOf(d.nfid) == -1) {
-			usedNF.push(d.nfid);
-		}
-	});
-	usedNF.forEach(function(d) {
+	
+	allocatedNFunctions.forEach(function(d) {
 		nfBut.push(new Button(d, "nwFunction", nwFunctions[d].type));
 	});
 

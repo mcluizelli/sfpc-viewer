@@ -1,7 +1,8 @@
 // global data
 
 // variables from .out file
-var allocatedFunctions = [],
+var allocatedNfInstances = [],
+	allocatedNFunctions = [],
 	nwFunctions = [], // GNF
 	requests = [];
 
@@ -82,11 +83,12 @@ window.onload = function() {
 
 			var physicalLinks = links.filter(function(l){return l.net == -1});
 			var vNets = JSON.parse(reader.result).sfc;
- 			var virtualLinks = links.filter(function(l){return l.net != -1});	// used to include virtual links
+ 			var virtualLinks = links.filter(function(l){return l.net != -1});	
  			var physicalNodes = nodes.filter(function(n){return n.net == -1});
 
  			for (var i = 0; i < vNets.length; i++) {
  				var vnet = vNets[i];
+ 				allocatedNFunctions.push(vnet.id);
  				for (var j = 0; j < vnet.nodes.length; j++) {
  					var n = vnet.nodes[j];
  					var node = {};
@@ -104,7 +106,7 @@ window.onload = function() {
 						node["instance"] = n.instance;
 						node["occurrences"] = 1;
 						// tests if there are other instances of same nf in the same node
-						var repeatedInstance = allocatedFunctions.filter(function(d){
+						var repeatedInstance = allocatedNfInstances.filter(function(d){
 							return d.host == node.host
 								&& d.instance == node.instance
 								&& d.nfid == node.nfid;
@@ -117,7 +119,7 @@ window.onload = function() {
 							ri.usedCpu += node.usedCpu;
 							ri.usedMem += node.usedMem;
 						} else {
-							allocatedFunctions.push(node);
+							allocatedNfInstances.push(node);
 						}
 					} else {
  						node["net"] = vnet.id; 
@@ -169,7 +171,11 @@ window.onload = function() {
  						link["net"] = vnet.id;
  						link["delay"] = vnet.delay;
  						// test if there is another link allocated
- 						vl = virtualLinks.filter(function(d){return d.net == link.net && d.source == link.source && d.target == link.target});
+ 						vl = virtualLinks.filter(function(d){
+ 							return d.net == link.net && 
+ 								d.source == link.source && 
+ 								d.target == link.target;
+ 						});
  						if(vl.length == 0) {
  							virtualLinks.push(link);
  							links.push(link);

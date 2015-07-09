@@ -85,7 +85,7 @@ var nodeClass = function(d) {
     if (d.net > -1) {
       nodeType = "virtual";
     } else {
-      nodeType = "infraestructure";
+      nodeType = "infrastructure";
     }
   } else {
     nodeType = "nwFunction";
@@ -169,7 +169,7 @@ function start() {
           .type(nodeSymbol)
           .size(200))
       .style("fill", generateColor);
-  // selects non-empty physical nodes
+  // append text for physical nodes that host virtual nodes
   node.filter(function(d){
     var pnc = hulls.map(function(d){if(d.length>1){return d[0]}});
     if(pnc.indexOf(d)>-1)
@@ -198,6 +198,20 @@ function start() {
   force = force.linkDistance(linkDistance)
   force.start();
   generateFilters();
+
+  function appendImage(nodeType, image) {
+    node.filter(function(d){return d.type != "physical"})
+      .append("image")
+      .attr("xlink:href", function(d){
+          if(d.type == "end-point")
+            return "icons/PC.png";
+          else
+            return "icons/"+d.nfid+".png";})
+      .attr("x", "-8px")
+      .attr("y", "-8px")
+      .attr("width", "16px")
+      .attr("height", "16px");
+  }
 }
 
 function tick(e) {
