@@ -88,7 +88,7 @@ window.onload = function() {
 
  			for (var i = 0; i < vNets.length; i++) {
  				var vnet = vNets[i];
- 				allocatedNFunctions.push(vnet.id);
+
  				for (var j = 0; j < vnet.nodes.length; j++) {
  					var n = vnet.nodes[j];
  					var node = {};
@@ -120,6 +120,10 @@ window.onload = function() {
 							ri.usedMem += node.usedMem;
 						} else {
 							allocatedNfInstances.push(node);
+							// tests if a new nf wasn't allocated
+							if (allocatedNFunctions.indexOf(n.nfid) == -1) {
+								allocatedNFunctions.push(n.nfid);
+							}
 						}
 					} else {
  						node["net"] = vnet.id; 

@@ -186,6 +186,7 @@ function start() {
   force = force.linkDistance(linkDistance)
   force.start();
   generateFilters();
+  generateNFIconInputs();
 
   function appendImage(node, image) {
     node.append("image")
