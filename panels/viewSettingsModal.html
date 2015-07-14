@@ -35,9 +35,44 @@
             $("#chargeDistanceVal").text($(this).val());
         });
 
+    // changes the elements icons
+    function updateIcon(input, selection) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                selection.attr('href', e.target.result);
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
 
-    $("#switches-img").on('change', function(){
-        $(".node.infrastructure").attr("href", $(this).val());
+    function generateNFIconInputs() {
+        allocatedNFunctions.forEach(function(nf) {
+            $label = $('<label></label>')   
+                .attr("class", "control-label")
+                .text(nwFunctions[nf].type);
+            $input = $('<input />');
+            $input.attr("type", "file")
+                .attr("id", "nf" + nf + "-img");
+
+            $("#view-param-form").append($label)
+                .append($input);
+            $("#nf" + nf + "-img")
+                .on('change',function() {
+                    var sel = gnodes.selectAll(".node.nwFunction")
+                        .filter(function(d) { return d.nfid == nf; })
+                        .select("image");
+                    updateIcon($(this), $(sel[0]));
+                });
+        });
+    }
+
+    // default inputs
+    $("#switches-img").change(function(){
+        updateIcon(this, $(".node.infrastructure image"));
+    });
+    $("#end-points-img").change(function(){
+        updateIcon(this, $(".node.virtual image"));
     });
 </script>
 <div class="modal-dialog">
@@ -48,7 +83,7 @@
         </div>
         <div class="modal-body">
             <form role="form">
-                <div class="form-group">
+                <div class="form-group" id="view-param-form">
                     <label class="control-label" for="vNodeAttraction">Virtual node attraction: <span id="vNodeAttractionVal"></span></label>
                     <input type="range" min="0" max="3" step="0.1" class="form-control" id="vNodeAttraction" default="2">
                     <label class="control-label" for="gravity">Gravity: <span id="gravityVal"></span></label>

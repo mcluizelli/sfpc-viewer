@@ -157,7 +157,7 @@ function start() {
   var nf = node.filter(function(d){return d.type == "network-function"});
   appendImage(nf, function(d){return "icons/"+d.nfid+".png"});
   var pn = node.filter(function(d){return d.type == "physical"})
-  appendImage(pn, "icons/router.png");
+  appendImage(pn, "icons/teste/router.png");
   // append text for physical nodes that host virtual nodes
   node.filter(function(d){
     if(hulls[d.id].length > 1 && d.type == "physical")
@@ -186,6 +186,7 @@ function start() {
   force = force.linkDistance(linkDistance)
   force.start();
   generateFilters();
+  generateNFIconInputs();
 
   function appendImage(node, image) {
     node.append("image")
