@@ -203,7 +203,7 @@ window.onload = function() {
  			for (var i = 0; i < result.length; i++) {
  				requests[result[i].id] = result[i];
  			}
-
+			generateSfcRequestsViewTable();
 		}
 
 		reader.readAsText(file);

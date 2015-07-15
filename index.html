@@ -227,76 +227,13 @@
 
         <!-- - - - - - - -  - - - - - - -->
         <div class="modal fade pg-show-modal" id="sfc-req-view" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title">SFC Requests</h4>
-                    </div>
-                    <div class="modal-body">
-                        <table class="table table-hover" id="sfc-req-table">
-                        <tr class="active">
-                            <td><b><center>ID</center></b></td>
-                            <td width="50%"><b><center>Description</center><b></td>
-                            <td><b><center>Num Net. Funcions</center></b></td>
-                            <td><b><center>Author</center></b></td>
-                            <td><b><center>Date</center></b></td>
-                        </tr>
-
-                        <tr>
-                            <td><center>1</center></td>
-                            <td align="left">VPN portal SFC</td>
-                            <td><center>2</center></td>
-                            <td><center>John Doe</center></td>
-                            <td><center>01/10/2015 5:13pm</center></td>
-                        </tr>
-
-                        <tr>
-                            <td><center>2</center></td>
-                            <td align="left">e-commerce WebApp SFC</td>
-                            <td><center>2</center></td>
-                            <td><center>John Doe</center></td>
-                            <td><center>01/11/2015 8:21am</center></td>
-                        </tr>
-
-                        <tr>
-                            <td><center>3</center></td>
-                            <td align="left">VoIP SFC</td>
-                            <td><center>3</center></td>
-                            <td><center>John Doe</center></td>
-                            <td><center>01/11/2015 13:11pm</center></td>
-                        </tr>
-
-                        <tr>
-                            <td><center>4</center></td>
-                            <td align="left">Web Conference</td>
-                            <td><center>5</center></td>
-                            <td><center>John Doe</center></td>
-                            <td><center>01/12/2015 10:32am</center></td>
-                        </tr>
-
-                        
-
-                        <!--
-                        <tr class="active">
-                          <td><b>ID</b></td>
-                          <td><b>Network Function</b></td>
-                          <td><b>CPU</b></td>
-                          <td><b>Memory</b></td>
-                          <td><b>Number of Instances</b></td>
-                          <td></td>
-                        </tr>
-                        -->
-                      </table>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Edit</button>
-                        
-                        <button type="button" class="btn btn-danger">Close</button>
-                    </div>
-                </div>
-            </div>
+            <!--
+            -  CONTENT OF THIS MODAL IS IN
+            -  panels/viewSfcReqModal.html
+            -->
         </div>
+
+        <!-- - - - - - - - - - - -  - - - - - - - - - - - - -->
         <div class="modal fade pg-show-modal" id="nf-load" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -530,6 +467,7 @@
             // loading modals from external files
             $(function() {
                 $("#set-view").load("panels/viewSettingsModal.html");
+                $("#sfc-req-view").load("panels/viewSfcReqModal.html");
             });
 
             // enables the draggable behaviour
