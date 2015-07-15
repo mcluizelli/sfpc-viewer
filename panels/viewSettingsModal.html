@@ -58,11 +58,11 @@
             $("#view-param-form").append($label)
                 .append($input);
             $("#nf" + nf + "-img")
-                .on('change',function() {
+                .change(function() {
                     var sel = gnodes.selectAll(".node.nwFunction")
                         .filter(function(d) { return d.nfid == nf; })
                         .select("image");
-                    updateIcon($(this), $(sel[0]));
+                    updateIcon(this, $(sel[0]));
                 });
         });
     }
