@@ -68,7 +68,8 @@ window.onload = function() {
 		reader.onload = function(e) {
 			nwFunctions.splice(0);
 			nwFunctions = JSON.parse(reader.result);
-
+			// updates the modal that shows the nf's information
+			generateNfViewTable();
 		}
 
 		reader.readAsText(file);
@@ -203,6 +204,7 @@ window.onload = function() {
  			for (var i = 0; i < result.length; i++) {
  				requests[result[i].id] = result[i];
  			}
+ 			// updates the modal of the requests' information
 			generateSfcRequestsViewTable();
 		}
 

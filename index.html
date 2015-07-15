@@ -296,66 +296,7 @@
 
         <!-- - - - - - - - - - - - - - - - - -->
         <div class="modal fade pg-show-modal" id="nf-view" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title">Network Functions</h4>
-                    </div>
-                    <div class="modal-body">
-                        <table class="table table-hover" id="nf-table">
-                            <tr class="active">
-                                <td width="10%"> <b><center></center></b></td>
-                                <td width="20%"><b><center>Network Function</center></b></td>
-                                <td width="20%"><b><center>CPU</center></b></td>
-                                <td width="20%"><b><center>Memory</center></b></td>
-                                <td width="20%"><b><center>Instances</center></b></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td><center><img src="icons/teste/0.png" width="60%"></center></td>
-                                <td><center>Firewall</center></td>
-                                <td><center>5 vCPU</center></td>
-                                <td><center>2048 MB</center></td>
-                                <td><center>9</center></td>
-                                <td></td>
-                            </tr>
 
-                            <tr>
-                                <td><center><img src="icons/teste/1.png" width="60%"></center></td>
-                                <td><center>Load Balancer</center></td>
-                                <td><center>5 vCPU</center></td>
-                                <td><center>2048 MB</center></td>
-                                <td><center>9</center></td>
-                                <td></td>
-                            </tr>
-
-                            <tr>
-                                <td><center><img src="icons/teste/0.png" width="60%"></center></td>
-                                <td><center>VPN</center></td>
-                                <td><center>5 vCPU</center></td>
-                                <td><center>2048 MB</center></td>
-                                <td><center>10</center></td>
-                                <td></td>
-                            </tr>
-
-                            <tr>
-                                <td><center><img src="icons/teste/2.png" width="60%"></center></td>
-                                <td><center>Proxy</center></td>
-                                <td><center>5 vCPU</center></td>
-                                <td><center>2048 MB</center></td>
-                                <td><center>10</center></td>
-                                <td></td>
-                            </tr>
-
-                        </table>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Edit</button>
-                        <button type="button" class="btn btn-danger">Close</button>
-                    </div>
-                </div>
-            </div>
         </div>
         <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
             <div class="container">
@@ -461,6 +402,7 @@
         <script src="js/fileLoader.js"></script>
         <script src="js/d3graph.js"></script>
         <script src="js/filters.js"></script>
+        <script src="js/updateTables.js"></script>
         <script src="js/imports/jquery.hotkeys.js"></script>
 
         <script>
@@ -468,6 +410,7 @@
             $(function() {
                 $("#set-view").load("panels/viewSettingsModal.html");
                 $("#sfc-req-view").load("panels/viewSfcReqModal.html");
+                $("#nf-view").load("panels/viewNfModal.html");
             });
 
             // enables the draggable behaviour

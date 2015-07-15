@@ -1,30 +1,3 @@
-<script>
-    function generateSfcRequestsViewTable() {
-        
-        function td(value, center, align) {
-            var d = $("<td></td");
-            if (center) {
-                d.append($("<center>"+value+"</center>"));
-            } else 
-                d.text(value);
-            if (!(align === undefined)) {
-                d.attr("align", align);
-            }
-            return d;
-        }
-
-        requests.forEach(function(r) {
-            var tr = $("<tr></tr>")
-                .append(td(r.id, true))
-                .append(td(r.name, false))
-                .append(td("", false))
-                .append(td("", false))
-                .append(td("", false));
-            $("#sfc-req-table").append(tr);
-        });
-    }
-</script>
-
 <div class="modal-dialog">
 <div class="modal-content">
     <div class="modal-header">
